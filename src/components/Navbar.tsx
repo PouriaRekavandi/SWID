@@ -39,13 +39,13 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, onSelectTab }) => {
           onClick={() => handleNavClick('home')}
           className="flex items-center gap-2.5 text-left group cursor-pointer focus:outline-none flex-none"
         >
-          <div className="w-8 h-8 flex items-center justify-center flex-none transition-transform duration-300 group-hover:scale-110">
+          <div className="w-8 h-8 flex items-center justify-center flex-none transition-transform duration-300 group-hover:scale-110 rounded-full overflow-hidden">
             <img
               src={logoTransparent}
               alt="SWID-SHRK Logo"
               loading="eager"
               decoding="async"
-              className="w-full h-full object-contain filter drop-shadow-[0_0_8px_rgba(0,184,255,0.45)] dark:drop-shadow-[0_0_10px_rgba(0,184,255,0.7)]"
+              className="w-full h-full object-contain rounded-full [clip-path:circle(49%_at_50%_50%)] filter drop-shadow-[0_0_8px_rgba(0,184,255,0.45)] dark:drop-shadow-[0_0_10px_rgba(0,184,255,0.7)]"
               onError={(e) => {
                 (e.target as HTMLImageElement).src = logoFallback;
               }}

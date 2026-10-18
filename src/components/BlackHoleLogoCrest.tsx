@@ -326,7 +326,7 @@ export const BlackHoleLogoCrest: React.FC<BlackHoleLogoCrestProps> = ({ classNam
           </div>
 
           {/* 9. The SWID-SHRK Master Crest Logo — Manifested from the Singularity */}
-          <div className="relative z-20 w-full h-full flex items-center justify-center p-2.5 sm:p-3.5">
+          <div className="relative z-20 w-full h-full flex items-center justify-center p-2.5 sm:p-3.5 rounded-full overflow-hidden">
             <img
               key={`crest-genesis-${genesisKey}`}
               src={logoTransparent}
@@ -336,7 +336,7 @@ export const BlackHoleLogoCrest: React.FC<BlackHoleLogoCrestProps> = ({ classNam
               onError={(e) => {
                 (e.target as HTMLImageElement).src = logoFallback;
               }}
-              className={`w-full h-full object-contain select-none transition-all duration-500 filter ${
+              className={`w-full h-full object-contain select-none rounded-full [clip-path:circle(49%_at_50%_50%)] transition-all duration-500 filter ${
                 isMaterializing
                   ? 'animate-[singularityBirth_2.4s_cubic-bezier(0.16,1,0.3,1)_forwards]'
                   : isHovered
