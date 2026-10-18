@@ -247,6 +247,81 @@
   box-shadow: 0 0 25px rgba(0, 255, 65, 0.25);
 }
 
+/* Gravitational Lensing & Spacetime Curvature Light Bending */
+@keyframes spacetimeCurvaturePulse {
+  0%, 100% {
+    transform: perspective(1000px) scale(1) translateY(0);
+    filter: drop-shadow(0 0 16px rgba(255, 180, 50, 0.55));
+  }
+  50% {
+    transform: perspective(1000px) scale(1.008) translateY(-1px);
+    filter: drop-shadow(0 0 24px rgba(255, 205, 80, 0.85)) drop-shadow(0 4px 18px rgba(0, 184, 255, 0.35));
+  }
+}
+
+@keyframes einsteinRingSheen {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes geodesicRipple {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale(0.98) rotate(0deg);
+  }
+  50% {
+    opacity: 0.75;
+    transform: scale(1.02) rotate(1deg);
+  }
+}
+
+.gravitational-lensing-warp-subtle {
+  filter: url(#gravitational-lensing-subtle);
+  will-change: filter, transform;
+}
+
+.gravitational-lensing-warp-enhanced {
+  filter: url(#gravitational-lensing-enhanced);
+  will-change: filter, transform;
+}
+
+.gravitational-lens-field {
+  backdrop-filter: blur(2.5px) contrast(110%) saturate(125%) brightness(105%);
+  -webkit-backdrop-filter: blur(2.5px) contrast(110%) saturate(125%) brightness(105%);
+}
+
+.einstein-ring-badge {
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 215, 64, 0.15) 0%, rgba(0, 0, 0, 0.65) 75%);
+  backdrop-filter: blur(10px) contrast(115%) saturate(130%);
+  -webkit-backdrop-filter: blur(10px) contrast(115%) saturate(130%);
+  border: 1px solid rgba(255, 215, 64, 0.35);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.9), inset 0 1px 1px 0 rgba(255, 255, 255, 0.25), 0 0 18px rgba(255, 180, 50, 0.25);
+}
+
+.lensing-bending-beam {
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 200, 60, 0.15) 20%, rgba(255, 255, 255, 0.7) 50%, rgba(0, 184, 255, 0.2) 80%, transparent 100%);
+  background-size: 200% 100%;
+  animation: einsteinRingSheen 6s infinite linear;
+}
+
+/* Event Horizon Audio Visualizer Frequency Waves */
+@keyframes soundWave {
+  0%, 100% {
+    transform: scaleY(0.3);
+    opacity: 0.55;
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+
+
 /* Neural Background Animations for old.jpg */
 @keyframes neural-orbit {
   0% {
