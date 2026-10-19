@@ -331,9 +331,10 @@ for _fn_name in ('Field', 'FieldState', 'PredefinedField'):
 # ============================================================
 # BOUNDARY CONDITIONS
 # ============================================================
+# Base gets u3=0 only to avoid overconstraining the edges shared with Xm/Ym faces
 mdl.DisplacementBC(
     name='BC-PinnedBase', createStepName='Step-Equil',
-    region=a.sets['Set-SkinBottom'], u1=0.0, u2=0.0, u3=0.0
+    region=a.sets['Set-SkinBottom'], u3=0.0
 )
 mdl.DisplacementBC(
     name='BC-EquilXm', createStepName='Step-Equil',
@@ -343,20 +344,30 @@ mdl.DisplacementBC(
     name='BC-EquilYm', createStepName='Step-Equil',
     region=a.sets['Set-SkinYminus'], u2=0.0
 )
+# To prevent rigid body motion in X/Y during equilibrium since base is only constrained in Z
+mdl.DisplacementBC(
+    name='BC-EquilXp', createStepName='Step-Equil',
+    region=a.sets['Set-SkinXplus'], u1=0.0
+)
+mdl.DisplacementBC(
+    name='BC-EquilYp', createStepName='Step-Equil',
+    region=a.sets['Set-SkinYplus'], u2=0.0
+)
 
 if LOAD_CASE == 'UNIAXIAL':
-    mdl.boundaryConditions['BC-EquilXm'].deactivate('Step-Load')
-    mdl.DisplacementBC(name='BC-Load-Xm', createStepName='Step-Load', region=a.sets['Set-SkinXminus'], u1=0.0)
+    mdl.boundaryConditions['BC-EquilXp'].deactivate('Step-Load')
     mdl.DisplacementBC(name='BC-Load-Xp', createStepName='Step-Load', region=a.sets['Set-SkinXplus'], u1=UX_UNIAXIAL)
 elif LOAD_CASE == 'BIAXIAL':
     mdl.boundaryConditions['BC-EquilXm'].deactivate('Step-Load')
+    mdl.boundaryConditions['BC-EquilXp'].deactivate('Step-Load')
     mdl.boundaryConditions['BC-EquilYm'].deactivate('Step-Load')
+    mdl.boundaryConditions['BC-EquilYp'].deactivate('Step-Load')
     mdl.DisplacementBC(name='BC-Load-Xm', createStepName='Step-Load', region=a.sets['Set-SkinXminus'], u1=-UX_BIAXIAL)
     mdl.DisplacementBC(name='BC-Load-Xp', createStepName='Step-Load', region=a.sets['Set-SkinXplus'], u1=UX_BIAXIAL)
     mdl.DisplacementBC(name='BC-Load-Ym', createStepName='Step-Load', region=a.sets['Set-SkinYminus'], u2=-UY_BIAXIAL)
     mdl.DisplacementBC(name='BC-Load-Yp', createStepName='Step-Load', region=a.sets['Set-SkinYplus'], u2=UY_BIAXIAL)
 elif LOAD_CASE == 'COMPRESSION':
-    mdl.boundaryConditions['BC-PinnedBase'].setValuesInStep(stepName='Step-Load', u1=UNSET, u2=UNSET, u3=0.0)
+    pass # All 4 sides remain fixed in-plane, base in Z, pressure on top
     mdl.Pressure(
         name='Load-Compression', createStepName='Step-Load',
         region=a.surfaces['Surf-AdhTop'], distributionType=UNIFORM,
