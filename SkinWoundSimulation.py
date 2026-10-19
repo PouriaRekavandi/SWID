@@ -369,9 +369,25 @@ elif LOAD_CASE == 'COMPRESSION':
 for k in list(mdl.fieldOutputRequests.keys()): del mdl.fieldOutputRequests[k]
 for k in list(mdl.historyOutputRequests.keys()): del mdl.historyOutputRequests[k]
 
-FO_VARS = ('S', 'LE', 'U', 'CPRESS', 'CSHEAR', 'CSDMG', 'CSTATUS')
-mdl.FieldOutputRequest(name='FO-Equil', createStepName='Step-Equil', variables=FO_VARS, numIntervals=N_INTERVALS)
-mdl.FieldOutputRequest(name='FO-Load', createStepName='Step-Load', variables=FO_VARS, numIntervals=N_INTERVALS)
+# Try full variable set first, fallback to safer subsets for older Abaqus versions
+FO_VARS_ATTEMPTS = [
+    ('S', 'LE', 'U', 'CPRESS', 'CSHEAR', 'CSDMG', 'CSTATUS'),
+    ('S', 'LE', 'U', 'CPRESS', 'CSTRESS', 'CSDMG', 'CSTATUS'),
+    ('S', 'LE', 'U', 'CPRESS', 'CSTRESS', 'CSTATUS'),
+    ('S', 'LE', 'U', 'CPRESS', 'CSTATUS'),
+    ('S', 'LE', 'U')
+]
+
+for attempt_vars in FO_VARS_ATTEMPTS:
+    try:
+        if 'FO-Equil' in mdl.fieldOutputRequests: del mdl.fieldOutputRequests['FO-Equil']
+        if 'FO-Load' in mdl.fieldOutputRequests: del mdl.fieldOutputRequests['FO-Load']
+
+        mdl.FieldOutputRequest(name='FO-Equil', createStepName='Step-Equil', variables=attempt_vars, numIntervals=N_INTERVALS)
+        mdl.FieldOutputRequest(name='FO-Load', createStepName='Step-Load', variables=attempt_vars, numIntervals=N_INTERVALS)
+        break
+    except Exception:
+        pass
 
 ENERGY_VARS = ('ALLIE', 'ALLKE', 'ALLSE', 'ALLWK', 'ALLPD', 'ETOTAL')
 mdl.HistoryOutputRequest(name='HO-Equil', createStepName='Step-Equil', variables=ENERGY_VARS, numIntervals=N_INTERVALS)
