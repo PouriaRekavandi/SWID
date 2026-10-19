@@ -1,6 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { ANTIPRISM_VIDEOS, GOOGLE_DRIVE_VIDEOS_FOLDER } from '../data/initialData';
-import { ResearchMetrics } from './ResearchMetrics';
 import { ResearchMilestoneTimeline } from './ResearchMilestoneTimeline';
 import { GitHubStatsWidget } from './GitHubStatsWidget';
 import {
@@ -377,203 +376,171 @@ export const ResearchSection: React.FC<ResearchSectionProps> = ({ onNotify }) =>
   return (
     <div className="space-y-10 relative">
       {/* Section Header */}
-      <div>
-        <div className="inline-block border-b-2 dark:border-[#00b8ff] border-sky-600 pb-1 mb-4">
-          <h2 className="font-section-title text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-wider dark:text-white text-slate-900 flex items-center">
-            <span className="dark:text-[#00ff41] text-emerald-600 font-mono mr-2 select-none">//</span>
-            <span>Research Modules &amp; Domains</span>
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-2 border-b dark:border-amber-500/20 border-slate-200">
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wider dark:bg-amber-500/15 bg-amber-100 dark:text-amber-300 text-amber-800 border dark:border-amber-500/30 border-amber-300">
+              02. Research Catalog
+            </span>
+            <span className="dark:text-zinc-500 text-slate-400 text-xs font-mono">•</span>
+            <span className="dark:text-zinc-400 text-slate-600 text-xs font-mono tracking-wide">
+              Continuum Mechanics &amp; Aerospace
+            </span>
+          </div>
+          <h2 className="font-rajdhani text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-tight dark:text-white text-slate-900">
+            Research Modules &amp; Domains
           </h2>
+          <p className="dark:text-zinc-400 text-slate-600 font-mono text-xs sm:text-sm max-w-3xl leading-relaxed mt-1">
+            Fundamental investigations across continuum mechanics, bio-inspired architectures, nonlinear material deformation, and dynamic crashworthiness.
+          </p>
         </div>
-        <p className="dark:text-zinc-400 text-slate-600 font-mono text-sm max-w-3xl leading-relaxed">
-          Fundamental and applied investigations across continuum mechanics, bio-inspired architectures, nonlinear material deformation, and dynamic crashworthiness.
-        </p>
+
+        {/* Live Filtered Count Badge */}
+        <div className="flex-none self-start sm:self-auto">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-semibold dark:bg-amber-500/10 bg-amber-50 border dark:border-amber-500/30 border-amber-300 dark:text-amber-300 text-amber-800">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+            <span>{filteredItems.length} of {RESEARCH_ITEMS.length} Modules</span>
+          </span>
+        </div>
       </div>
 
-      {/* Research Metrics Section with Animated Counting Numbers */}
-      <ResearchMetrics />
-
-      {/* Interactive Search Bar & Category Filter Toolbar */}
-      <div className="dark:bg-[#11161d] bg-white border dark:border-[#22303c] border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm space-y-5">
-        {/* Row 1: Search Bar with Live Result Feedback */}
-        <div className="space-y-2.5">
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-            <div className="relative flex-1">
-              <Search className="w-4 h-4 dark:text-[#00b8ff] text-sky-600 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-              <input
-                type="search"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Escape') setSearchQuery('');
-                }}
-                placeholder="Search projects, topics, materials (e.g. Viscoelastic, Bouligand, DIC, AntiPrism)..."
-                aria-label="Search research projects and topics"
-                className="w-full pl-10 pr-24 py-2.5 dark:bg-[#080d14] bg-slate-50 border dark:border-[#2a3b4c] border-slate-300 focus:border-sky-600 dark:focus:border-[#00b8ff] rounded-lg text-xs sm:text-sm dark:text-white text-slate-900 font-mono placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-sky-500/20 dark:focus:ring-[#00b8ff]/20 transition-all"
-              />
-              <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
-                {searchQuery ? (
-                  <button
-                    onClick={() => setSearchQuery('')}
-                    title="Clear search (ESC)"
-                    aria-label="Clear search query"
-                    className="p-1 rounded text-zinc-400 hover:text-red-500 hover:bg-slate-200 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
-                  >
-                    <X className="w-3.5 h-3.5" />
-                  </button>
-                ) : (
-                  <span className="hidden sm:inline-block text-[10px] font-mono dark:text-zinc-500 text-slate-400 border dark:border-zinc-800 border-slate-200 px-1.5 py-0.5 rounded">
-                    ESC
-                  </span>
-                )}
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full font-bold dark:bg-[#00ff41]/10 bg-emerald-100 dark:text-[#00ff41] text-emerald-800 border dark:border-[#00ff41]/30 border-emerald-300">
-                  {filteredItems.length} found
-                </span>
-              </div>
-            </div>
-
-            {/* Quick Actions: Sort + Expand All */}
-            <div className="flex items-center gap-2 flex-wrap justify-between sm:justify-end flex-none">
-              <div className="flex items-center gap-1.5 dark:bg-[#080d14] bg-slate-50 border dark:border-[#2a3b4c] border-slate-300 px-3 py-2 rounded-lg text-xs font-mono">
-                <ArrowUpDown className="w-3.5 h-3.5 dark:text-[#00b8ff] text-sky-600 flex-none" />
-                <label htmlFor="sort-select" className="text-zinc-400 sr-only">Sort by</label>
-                <select
-                  id="sort-select"
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value as SortOption)}
-                  className="bg-transparent dark:text-zinc-200 text-slate-700 focus:outline-none cursor-pointer text-xs"
+      {/* Streamlined 2-Tier Command Toolbar */}
+      <div className="dark:bg-[#0c1017]/90 bg-white border dark:border-amber-500/25 border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm space-y-4">
+        {/* Tier 1: Search Input & View Controls */}
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+          <div className="relative flex-1">
+            <Search className="w-4 h-4 text-amber-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <input
+              type="search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Escape') setSearchQuery('');
+              }}
+              placeholder="Search projects, materials, subroutines (e.g. Viscoelastic, VUMAT)..."
+              aria-label="Search research projects and topics"
+              className="w-full pl-10 pr-28 sm:pr-32 py-2.5 dark:bg-[#05070a] bg-slate-50 border dark:border-zinc-800 border-slate-300 focus:border-amber-500 dark:focus:border-amber-400 rounded-xl text-xs sm:text-sm dark:text-white text-slate-900 font-mono placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition-all"
+            />
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5 pointer-events-auto">
+              {searchQuery ? (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  title="Clear search (ESC)"
+                  aria-label="Clear search query"
+                  className="p-1 rounded text-zinc-400 hover:text-red-400 transition-colors cursor-pointer"
                 >
-                  <option value="default">Default Order</option>
-                  <option value="name-asc">Title (A &rarr; Z)</option>
-                  <option value="name-desc">Title (Z &rarr; A)</option>
-                  <option value="tags-count">Most Related Tags</option>
-                </select>
-              </div>
-
-              {selectedCategory !== 'focus' && (
-                <div className="flex items-center gap-1">
-                  <button
-                    type="button"
-                    onClick={expandAll}
-                    className="px-2.5 py-2 text-[11px] font-mono dark:bg-zinc-800 bg-slate-100 dark:hover:bg-zinc-700 hover:bg-slate-200 dark:text-zinc-300 text-slate-700 rounded transition-colors cursor-pointer"
-                    title="Expand all accordion modules"
-                  >
-                    Expand All
-                  </button>
-                  <button
-                    type="button"
-                    onClick={collapseAll}
-                    className="px-2.5 py-2 text-[11px] font-mono dark:bg-zinc-800 bg-slate-100 dark:hover:bg-zinc-700 hover:bg-slate-200 dark:text-zinc-300 text-slate-700 rounded transition-colors cursor-pointer"
-                    title="Collapse all accordion modules"
-                  >
-                    Collapse All
-                  </button>
-                </div>
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              ) : (
+                <span className="hidden sm:inline-block text-[10px] font-mono dark:text-zinc-500 text-slate-400 border dark:border-zinc-800 border-slate-200 px-1.5 py-0.5 rounded">
+                  ESC
+                </span>
               )}
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full font-bold dark:bg-amber-500/15 bg-amber-100 dark:text-amber-300 text-amber-800 border dark:border-amber-500/30 border-amber-300">
+                {filteredItems.length} found
+              </span>
             </div>
           </div>
 
-          {/* Quick Search Topic Suggestions */}
-          <div className="flex items-center gap-1.5 flex-wrap text-xs font-mono pt-1">
-            <span className="text-[11px] dark:text-zinc-400 text-slate-500 flex items-center gap-1 mr-1">
-              <Sparkles className="w-3 h-3 dark:text-[#00b8ff] text-sky-600" />
-              Quick topics:
-            </span>
-            {POPULAR_SEARCH_TOPICS.map((topic) => {
-              const isCurrent = searchQuery.trim().toLowerCase() === topic.toLowerCase();
-              return (
+          {/* Quick Actions: Sort + Expand All */}
+          <div className="flex items-center gap-2 flex-wrap justify-between sm:justify-end flex-none">
+            <div className="flex items-center gap-1.5 dark:bg-[#05070a] bg-slate-50 border dark:border-zinc-800 border-slate-300 px-3 py-2 rounded-xl text-xs font-mono">
+              <ArrowUpDown className="w-3.5 h-3.5 text-amber-400 flex-none" />
+              <label htmlFor="sort-select" className="text-zinc-400 sr-only">Sort by</label>
+              <select
+                id="sort-select"
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as SortOption)}
+                className="bg-transparent dark:text-zinc-200 text-slate-700 focus:outline-none cursor-pointer text-xs"
+              >
+                <option value="default">Default Order</option>
+                <option value="name-asc">Title (A &rarr; Z)</option>
+                <option value="name-desc">Title (Z &rarr; A)</option>
+                <option value="tags-count">Most Related Tags</option>
+              </select>
+            </div>
+
+            {selectedCategory !== 'focus' && (
+              <div className="flex items-center gap-1">
                 <button
-                  key={topic}
-                  onClick={() => setSearchQuery(isCurrent ? '' : topic)}
-                  className={`px-2 py-0.5 rounded text-[11px] transition-all cursor-pointer ${
-                    isCurrent
-                      ? 'dark:bg-[#00b8ff] dark:text-black bg-sky-600 text-white font-bold'
-                      : 'dark:bg-[#080d14] bg-slate-100 dark:text-zinc-300 text-slate-700 dark:border dark:border-[#22303c] border border-slate-200 hover:border-sky-500 hover:text-sky-600'
-                  }`}
+                  type="button"
+                  onClick={expandAll}
+                  className="px-2.5 py-2 text-[11px] font-mono dark:bg-zinc-900 bg-slate-100 border dark:border-zinc-800 border-slate-200 dark:hover:bg-zinc-800 hover:bg-slate-200 dark:text-zinc-300 text-slate-700 rounded-xl transition-colors cursor-pointer"
+                  title="Expand all accordion modules"
                 >
-                  {topic}
+                  Expand All
                 </button>
-              );
-            })}
+                <button
+                  type="button"
+                  onClick={collapseAll}
+                  className="px-2.5 py-2 text-[11px] font-mono dark:bg-zinc-900 bg-slate-100 border dark:border-zinc-800 border-slate-200 dark:hover:bg-zinc-800 hover:bg-slate-200 dark:text-zinc-300 text-slate-700 rounded-xl transition-colors cursor-pointer"
+                  title="Collapse all accordion modules"
+                >
+                  Collapse All
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Row 2: Category Filter Segmented Control */}
-        <div className="pt-3 border-t dark:border-zinc-800/80 border-slate-200 space-y-3">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-            <div className="flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider dark:text-zinc-400 text-slate-500">
-              <Layers className="w-3.5 h-3.5 dark:text-[#00ff41] text-emerald-600" />
-              <span>Category Filter:</span>
-            </div>
+        {/* Tier 2: Unified Categories & Topic Filter Strip */}
+        <div className="pt-3 border-t dark:border-zinc-800/80 border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-3">
+          {/* Segmented Category Tabs */}
+          <div className="inline-flex rounded-xl p-1 dark:bg-[#05070a] bg-slate-100 border dark:border-zinc-800 border-slate-200 self-start sm:self-auto flex-wrap">
+            <button
+              type="button"
+              onClick={() => setSelectedCategory('all')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono transition-all cursor-pointer ${
+                selectedCategory === 'all'
+                  ? 'dark:bg-amber-500/20 dark:text-amber-300 dark:border-amber-500/40 border-amber-300 bg-amber-100 text-amber-900 font-bold border'
+                  : 'dark:text-zinc-400 text-slate-600 hover:text-slate-900 dark:hover:text-white'
+              }`}
+            >
+              <Layers className="w-3.5 h-3.5" />
+              <span>All Projects</span>
+              <span className="text-[10px] px-1.5 py-0.2 rounded-full font-bold dark:bg-black/40 bg-white/60">
+                {categoryCounts.all}
+              </span>
+            </button>
 
-            {/* Segmented Category Buttons */}
-            <div className="inline-flex rounded-lg p-1 dark:bg-[#080d14] bg-slate-100 border dark:border-[#22303c] border-slate-200 self-start sm:self-auto">
-              <button
-                type="button"
-                onClick={() => setSelectedCategory('all')}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-mono transition-all cursor-pointer ${
-                  selectedCategory === 'all'
-                    ? 'dark:bg-[#00ff41] dark:text-black bg-emerald-700 text-white font-bold shadow-xs'
-                    : 'dark:text-zinc-300 text-slate-700 hover:text-slate-900 dark:hover:text-white'
-                }`}
-              >
-                <Layers className="w-3.5 h-3.5" />
-                <span>All Projects</span>
-                <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
-                  selectedCategory === 'all'
-                    ? 'dark:bg-black/30 bg-emerald-900/40 text-white'
-                    : 'dark:bg-zinc-800 bg-slate-200 dark:text-zinc-400 text-slate-600'
-                }`}>
-                  {categoryCounts.all}
-                </span>
-              </button>
+            <button
+              type="button"
+              onClick={() => setSelectedCategory('module')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono transition-all cursor-pointer ${
+                selectedCategory === 'module'
+                  ? 'dark:bg-amber-500/20 dark:text-amber-300 dark:border-amber-500/40 border-amber-300 bg-amber-100 text-amber-900 font-bold border'
+                  : 'dark:text-zinc-400 text-slate-600 hover:text-slate-900 dark:hover:text-white'
+              }`}
+            >
+              <BookOpen className="w-3.5 h-3.5" />
+              <span>Curriculum</span>
+              <span className="text-[10px] px-1.5 py-0.2 rounded-full font-bold dark:bg-black/40 bg-white/60">
+                {categoryCounts.module}
+              </span>
+            </button>
 
-              <button
-                type="button"
-                onClick={() => setSelectedCategory('module')}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-mono transition-all cursor-pointer ${
-                  selectedCategory === 'module'
-                    ? 'dark:bg-[#00ff41] dark:text-black bg-emerald-700 text-white font-bold shadow-xs'
-                    : 'dark:text-zinc-300 text-slate-700 hover:text-slate-900 dark:hover:text-white'
-                }`}
-              >
-                <BookOpen className="w-3.5 h-3.5" />
-                <span>Curriculum Modules</span>
-                <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
-                  selectedCategory === 'module'
-                    ? 'dark:bg-black/30 bg-emerald-900/40 text-white'
-                    : 'dark:bg-zinc-800 bg-slate-200 dark:text-zinc-400 text-slate-600'
-                }`}>
-                  {categoryCounts.module}
-                </span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setSelectedCategory('focus')}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-mono transition-all cursor-pointer ${
-                  selectedCategory === 'focus'
-                    ? 'dark:bg-[#00ff41] dark:text-black bg-emerald-700 text-white font-bold shadow-xs'
-                    : 'dark:text-zinc-300 text-slate-700 hover:text-slate-900 dark:hover:text-white'
-                }`}
-              >
-                <Cpu className="w-3.5 h-3.5" />
-                <span>Focus Areas</span>
-                <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
-                  selectedCategory === 'focus'
-                    ? 'dark:bg-black/30 bg-emerald-900/40 text-white'
-                    : 'dark:bg-zinc-800 bg-slate-200 dark:text-zinc-400 text-slate-600'
-                }`}>
-                  {categoryCounts.focus}
-                </span>
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={() => setSelectedCategory('focus')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono transition-all cursor-pointer ${
+                selectedCategory === 'focus'
+                  ? 'dark:bg-amber-500/20 dark:text-amber-300 dark:border-amber-500/40 border-amber-300 bg-amber-100 text-amber-900 font-bold border'
+                  : 'dark:text-zinc-400 text-slate-600 hover:text-slate-900 dark:hover:text-white'
+              }`}
+            >
+              <Cpu className="w-3.5 h-3.5" />
+              <span>Focus Areas</span>
+              <span className="text-[10px] px-1.5 py-0.2 rounded-full font-bold dark:bg-black/40 bg-white/60">
+                {categoryCounts.focus}
+              </span>
+            </button>
           </div>
 
-          {/* Row 3: Topic / Tag Filter Chips */}
-          <div className="pt-2 border-t dark:border-zinc-800/60 border-slate-200 flex flex-wrap items-center gap-2">
-            <span className="text-[11px] font-mono uppercase tracking-wider dark:text-zinc-400 text-slate-500 flex items-center gap-1.5 mr-1">
-              <Tag className="w-3.5 h-3.5 dark:text-[#00b8ff] text-sky-600" />
-              Topic / Tag:
+          {/* Clean Topic Tag Filters */}
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="text-[11px] font-mono uppercase tracking-wider dark:text-zinc-500 text-slate-400 flex items-center gap-1 mr-1">
+              <Tag className="w-3 h-3 text-amber-400" />
+              Tag:
             </span>
 
             {allTags.map((tag) => {
@@ -583,17 +550,17 @@ export const ResearchSection: React.FC<ResearchSectionProps> = ({ onNotify }) =>
                 <button
                   key={tag}
                   onClick={() => setSelectedTag(tag)}
-                  className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono transition-all duration-200 cursor-pointer ${
+                  className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-mono transition-all duration-200 cursor-pointer ${
                     isSelected
-                      ? 'dark:bg-[#00b8ff] dark:text-black bg-sky-700 text-white font-bold shadow-xs'
-                      : 'dark:bg-[#0c1219] bg-slate-100 dark:text-zinc-300 text-slate-700 dark:border-[#22303c] border-slate-200 hover:border-sky-500 hover:text-sky-700'
+                      ? 'dark:bg-amber-400 dark:text-black bg-amber-600 text-white font-bold shadow-xs'
+                      : 'dark:bg-[#05070a] bg-slate-100 dark:text-zinc-300 text-slate-700 dark:border-zinc-800 border-slate-200 border hover:border-amber-400/60 hover:text-amber-400'
                   }`}
                 >
                   <span>{tag}</span>
                   <span
-                    className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
+                    className={`text-[10px] px-1 py-0.2 rounded-full font-bold ${
                       isSelected
-                        ? 'dark:bg-black/30 bg-sky-900/40 text-white'
+                        ? 'dark:bg-black/30 bg-amber-900/40 text-white'
                         : 'dark:bg-zinc-800 bg-slate-200 dark:text-zinc-400 text-slate-600'
                     }`}
                   >
@@ -605,19 +572,19 @@ export const ResearchSection: React.FC<ResearchSectionProps> = ({ onNotify }) =>
           </div>
         </div>
 
-        {/* Row 4: Active Filter Badges Bar */}
+        {/* Active Filter Clear Bar (Shown only when active filters exist) */}
         {(selectedCategory !== 'all' || selectedTag !== 'All' || searchQuery.trim()) && (
           <div className="pt-3 border-t dark:border-zinc-800/80 border-slate-200 flex flex-wrap items-center gap-2 text-xs font-mono">
             <span className="text-[11px] uppercase tracking-wider dark:text-zinc-400 text-slate-500">
-              Active Filters:
+              Active:
             </span>
 
             {selectedCategory !== 'all' && (
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full dark:bg-[#00ff41]/10 bg-emerald-50 dark:border-[#00ff41]/40 border-emerald-300 border dark:text-[#00ff41] text-emerald-800 text-xs font-bold">
-                <span>Category: {selectedCategory === 'module' ? 'Curriculum Modules' : 'Focus Areas'}</span>
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full dark:bg-amber-500/15 bg-amber-50 dark:border-amber-500/40 border-amber-300 border dark:text-amber-300 text-amber-800 text-xs font-bold">
+                <span>Category: {selectedCategory === 'module' ? 'Curriculum' : 'Focus Areas'}</span>
                 <button
                   onClick={() => setSelectedCategory('all')}
-                  className="hover:text-red-500 cursor-pointer"
+                  className="hover:text-red-400 cursor-pointer"
                   title="Remove category filter"
                 >
                   <X className="w-3 h-3" />
@@ -626,11 +593,11 @@ export const ResearchSection: React.FC<ResearchSectionProps> = ({ onNotify }) =>
             )}
 
             {selectedTag !== 'All' && (
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full dark:bg-[#00b8ff]/10 bg-sky-50 dark:border-[#00b8ff]/40 border-sky-300 border dark:text-[#00b8ff] text-sky-800 text-xs font-bold">
-                <span>Topic: #{selectedTag}</span>
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full dark:bg-amber-500/15 bg-amber-50 dark:border-amber-500/40 border-amber-300 border dark:text-amber-300 text-amber-800 text-xs font-bold">
+                <span>Tag: #{selectedTag}</span>
                 <button
                   onClick={() => setSelectedTag('All')}
-                  className="hover:text-red-500 cursor-pointer"
+                  className="hover:text-red-400 cursor-pointer"
                   title="Remove topic filter"
                 >
                   <X className="w-3 h-3" />
@@ -639,11 +606,11 @@ export const ResearchSection: React.FC<ResearchSectionProps> = ({ onNotify }) =>
             )}
 
             {searchQuery.trim() && (
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full dark:bg-purple-500/10 bg-purple-50 dark:border-purple-500/40 border-purple-300 border dark:text-purple-300 text-purple-800 text-xs font-bold">
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full dark:bg-amber-500/15 bg-amber-50 dark:border-amber-500/40 border-amber-300 border dark:text-amber-300 text-amber-800 text-xs font-bold">
                 <span>Query: &ldquo;{searchQuery.trim()}&rdquo;</span>
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="hover:text-red-500 cursor-pointer"
+                  className="hover:text-red-400 cursor-pointer"
                   title="Remove search query"
                 >
                   <X className="w-3 h-3" />
@@ -653,10 +620,10 @@ export const ResearchSection: React.FC<ResearchSectionProps> = ({ onNotify }) =>
 
             <button
               onClick={resetFilters}
-              className="ml-auto text-xs font-mono dark:text-zinc-400 text-slate-500 hover:text-red-500 flex items-center gap-1 cursor-pointer transition-colors"
+              className="ml-auto text-xs font-mono dark:text-zinc-400 text-slate-500 hover:text-red-400 flex items-center gap-1 cursor-pointer transition-colors"
             >
               <X className="w-3.5 h-3.5" />
-              Reset All Filters
+              Reset Filters
             </button>
           </div>
         )}
@@ -665,12 +632,12 @@ export const ResearchSection: React.FC<ResearchSectionProps> = ({ onNotify }) =>
       {/* Active filter count status */}
       <div className="flex items-center justify-between text-xs font-mono dark:text-zinc-400 text-slate-500 px-1">
         <span>
-          Showing <strong className="dark:text-[#00ff41] text-emerald-700">{filteredItems.length}</strong> of {RESEARCH_ITEMS.length} research projects
+          Showing <strong className="dark:text-amber-400 text-amber-700">{filteredItems.length}</strong> of {RESEARCH_ITEMS.length} research projects
           {selectedCategory !== 'all' && (
-            <span> in <strong className="dark:text-white text-slate-800">{selectedCategory === 'module' ? 'Curriculum Modules' : 'Focus Areas'}</strong></span>
+            <span> in <strong className="dark:text-white text-slate-800">{selectedCategory === 'module' ? 'Curriculum' : 'Focus Areas'}</strong></span>
           )}
           {selectedTag !== 'All' && <span> under <strong className="dark:text-white text-slate-800">#{selectedTag}</strong></span>}
-          {searchQuery.trim() && <span> matching &ldquo;<strong className="dark:text-[#00b8ff] text-sky-700">{searchQuery.trim()}</strong>&rdquo;</span>}
+          {searchQuery.trim() && <span> matching &ldquo;<strong className="dark:text-amber-300 text-amber-700">{searchQuery.trim()}</strong>&rdquo;</span>}
         </span>
       </div>
 
