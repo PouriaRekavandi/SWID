@@ -13,14 +13,26 @@ interface Star {
   hasSpike?: boolean;
 }
 
-interface InfallingParticle {
+interface GoldenThreadPoint {
+  x: number;
+  y: number;
+  distance: number;
+}
+
+interface GoldenThread {
   angle: number;
   distance: number;
+  initialDistance: number;
   speed: number;
   radialSpeed: number;
-  size: number;
-  alpha: number;
+  length: number;
+  history: GoldenThreadPoint[];
+  width: number;
   color: string;
+  glowColor: string;
+  headColor: string;
+  inclination: number;
+  sparkPhase: number;
 }
 
 interface ShootingStar {
@@ -36,11 +48,21 @@ interface ShootingStar {
 interface BlackHoleHeroProps {
   className?: string;
   children?: React.ReactNode;
+  mouseProximity?: number;
 }
 
-export const BlackHoleHero: React.FC<BlackHoleHeroProps> = ({ className = '', children }) => {
+export const BlackHoleHero: React.FC<BlackHoleHeroProps> = ({
+  className = '',
+  children,
+  mouseProximity = 0,
+}) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const proximityRef = useRef(mouseProximity);
+
+  useEffect(() => {
+    proximityRef.current = mouseProximity;
+  }, [mouseProximity]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -117,32 +139,37 @@ export const BlackHoleHero: React.FC<BlackHoleHeroProps> = ({ className = '', ch
       };
     });
 
-    // Infalling matter particles spiraling into the black hole accretion disk
-    const particlesCount = 95;
-    const plasmaPalette = [
-      '#ffffff',
-      '#fff8e1',
-      '#ffecb3',
-      '#ffe082',
-      '#ffd54f',
-      '#ffca28',
-      '#ffb300',
-      '#ffa000',
-      '#ff8f00',
-      '#ff6f00',
-      '#f57c00',
-      '#e65100',
-      '#d84315',
+    // Glowing golden threads simulating accretion disk matter spiraling into the central singularity
+    const threadsCount = 72;
+    const goldenThreadPalettes = [
+      { color: '#ffffff', glow: 'rgba(255, 255, 255, 0.95)', headColor: '#ffffff' },
+      { color: '#fff9c4', glow: 'rgba(255, 245, 157, 0.9)', headColor: '#ffffff' },
+      { color: '#fff59d', glow: 'rgba(255, 238, 88, 0.85)', headColor: '#fffde7' },
+      { color: '#ffe082', glow: 'rgba(255, 213, 79, 0.8)', headColor: '#fff8e1' },
+      { color: '#ffd54f', glow: 'rgba(255, 193, 7, 0.8)', headColor: '#ffecb3' },
+      { color: '#ffca28', glow: 'rgba(255, 160, 0, 0.75)', headColor: '#ffe082' },
+      { color: '#ffb300', glow: 'rgba(245, 124, 0, 0.7)', headColor: '#ffd54f' },
+      { color: '#ffa000', glow: 'rgba(230, 81, 0, 0.65)', headColor: '#ffca28' },
+      { color: '#ff8f00', glow: 'rgba(216, 67, 21, 0.6)', headColor: '#ffb300' },
     ];
-    const infallingParticles: InfallingParticle[] = Array.from({ length: particlesCount }, () => {
+
+    const goldenThreads: GoldenThread[] = Array.from({ length: threadsCount }, () => {
+      const palette = goldenThreadPalettes[Math.floor(Math.random() * goldenThreadPalettes.length)];
+      const dist = 140 + Math.random() * 340;
       return {
         angle: Math.random() * Math.PI * 2,
-        distance: 160 + Math.random() * 320,
-        speed: 0.016 + Math.random() * 0.028,
-        radialSpeed: 0.4 + Math.random() * 0.7,
-        size: 0.8 + Math.random() * 2.0,
-        alpha: 0.25 + Math.random() * 0.75,
-        color: plasmaPalette[Math.floor(Math.random() * plasmaPalette.length)],
+        distance: dist,
+        initialDistance: dist,
+        speed: 0.016 + Math.random() * 0.024,
+        radialSpeed: 0.32 + Math.random() * 0.58,
+        length: 12 + Math.floor(Math.random() * 12), // 12-24 history nodes in trail
+        history: [],
+        width: 1.1 + Math.random() * 1.6,
+        color: palette.color,
+        glowColor: palette.glow,
+        headColor: palette.headColor,
+        inclination: (Math.random() - 0.5) * 0.16,
+        sparkPhase: Math.random() * Math.PI * 2,
       };
     });
 
@@ -390,52 +417,97 @@ export const BlackHoleHero: React.FC<BlackHoleHeroProps> = ({ className = '', ch
         ctx.restore();
       }
 
-      // 5. Infalling Accretion Matter Particles Spiraling Around Logo with subtle 3D depth shift
+      // 5. Infalling Accretion Disk Glowing Golden Threads Spiraling into the Central Singularity
       ctx.save();
       const horizonRadius = Math.min(width * 0.26, 170);
       const particleParallaxX = -parallaxMouse.currentX * 8;
       const particleParallaxY = -parallaxMouse.currentY * 5;
+      const prox = proximityRef.current || 0;
 
-      for (let i = 0; i < infallingParticles.length; i++) {
-        const p = infallingParticles[i];
+      // Additive lighter blending creates incandescent golden glow where threads overlap
+      ctx.globalCompositeOperation = 'lighter';
 
-        // Keplerian orbit: particles move faster as they get closer
-        const angularVelocity = p.speed * (240 / Math.max(p.distance, 100));
-        p.angle += angularVelocity;
-        p.distance -= p.radialSpeed;
+      const diskTilt = 0.38;
+      const rot = -0.28; // -16 degree tilt of the accretion plane
+      const cosRot = Math.cos(rot);
+      const sinRot = Math.sin(rot);
 
-        // Reset if reached event horizon
-        if (p.distance < horizonRadius * 0.9) {
-          p.distance = horizonRadius * 2.4 + Math.random() * 150;
-          p.angle = Math.random() * Math.PI * 2;
+      for (let i = 0; i < goldenThreads.length; i++) {
+        const thread = goldenThreads[i];
+
+        // Relativistic Keplerian acceleration: speed increases sharply near event horizon
+        const distanceRatio = (horizonRadius * 2.2) / Math.max(thread.distance, horizonRadius * 0.72);
+        const angularVelocity = thread.speed * Math.pow(distanceRatio, 1.25) * (1 + prox * 0.45);
+        thread.angle += angularVelocity;
+
+        // Inward radial infall velocity (gravitational pull towards singularity)
+        const radialPull = thread.radialSpeed * Math.pow(distanceRatio, 0.9) * (1 + prox * 0.5);
+        thread.distance -= radialPull;
+
+        // 3D elliptical foreshortening + inclination wobble
+        const rawX = Math.cos(thread.angle) * thread.distance;
+        const rawY = Math.sin(thread.angle) * thread.distance * diskTilt + Math.sin(thread.angle * 2 + thread.inclination) * 4;
+
+        // Rotated accretion coordinates
+        const px = centerX + (rawX * cosRot - rawY * sinRot) + particleParallaxX;
+        const py = blackHoleCenterY + (rawX * sinRot + rawY * cosRot) + particleParallaxY;
+
+        // Record history point for continuous golden thread trail
+        thread.history.push({ x: px, y: py, distance: thread.distance });
+        if (thread.history.length > thread.length) {
+          thread.history.shift();
         }
 
-        // Elliptical perspective projection (tilted accretion disk) + 3D mouse parallax
-        const tilt = 0.38; // Elliptical foreshortening
-        const px = centerX + Math.cos(p.angle) * p.distance + particleParallaxX;
-        const py = blackHoleCenterY + Math.sin(p.angle) * p.distance * tilt + particleParallaxY;
+        // Relativistic Doppler beaming: matter moving toward observer (left side) is amplified & blue-shifted
+        const dopplerFactor = 0.65 + (Math.cos(thread.angle + Math.PI / 2) > 0 ? 0.75 : -0.2);
+        const baseAlpha = Math.max(0.15, Math.min(1, dopplerFactor * (0.65 + prox * 0.35)));
 
-        // Relativistic beaming: particles moving toward observer (left side, cos < 0) are brighter
-        const dopplerFactor = 0.6 + (Math.cos(p.angle + Math.PI / 2) > 0 ? 0.75 : -0.2);
-        const particleAlpha = Math.max(0.12, Math.min(1, p.alpha * dopplerFactor));
+        // Draw glowing golden thread trail if enough points exist
+        if (thread.history.length >= 2) {
+          ctx.beginPath();
+          ctx.moveTo(thread.history[0].x, thread.history[0].y);
 
-        ctx.fillStyle = p.color;
-        ctx.globalAlpha = particleAlpha;
+          for (let j = 1; j < thread.history.length; j++) {
+            const pt = thread.history[j];
+            const prev = thread.history[j - 1];
+            // Smooth curve through midpoint
+            const mx = (prev.x + pt.x) / 2;
+            const my = (prev.y + pt.y) / 2;
+            ctx.quadraticCurveTo(prev.x, prev.y, mx, my);
+          }
+          ctx.lineTo(px, py);
+
+          // Tapered filament stroke with glowing head
+          ctx.strokeStyle = thread.color;
+          ctx.lineWidth = thread.width * (0.8 + prox * 0.4);
+          ctx.globalAlpha = baseAlpha * 0.75;
+          ctx.stroke();
+
+          // Subtle outer golden aura for threads
+          if (thread.width > 1.8) {
+            ctx.strokeStyle = thread.glowColor;
+            ctx.lineWidth = thread.width * 2.2;
+            ctx.globalAlpha = baseAlpha * 0.25;
+            ctx.stroke();
+          }
+        }
+
+        // Leading glowing spark at the head of the thread
+        ctx.fillStyle = thread.headColor;
+        ctx.globalAlpha = Math.min(1, baseAlpha * 1.15);
         ctx.beginPath();
-        ctx.arc(px, py, p.size, 0, Math.PI * 2);
+        const headSize = (thread.width * 0.9) * (1 + prox * 0.35);
+        ctx.arc(px, py, headSize, 0, Math.PI * 2);
         ctx.fill();
 
-        // Trailing motion streak
-        ctx.strokeStyle = p.color;
-        ctx.globalAlpha = particleAlpha * 0.5;
-        ctx.lineWidth = p.size * 0.85;
-        const prevAngle = p.angle - angularVelocity * 2.5;
-        const prevX = centerX + Math.cos(prevAngle) * (p.distance + 1.5) + particleParallaxX;
-        const prevY = blackHoleCenterY + Math.sin(prevAngle) * (p.distance + 1.5) * tilt + particleParallaxY;
-        ctx.beginPath();
-        ctx.moveTo(prevX, prevY);
-        ctx.lineTo(px, py);
-        ctx.stroke();
+        // Singularity crossing threshold: matter crosses Schwarzschild radius into central logo void
+        if (thread.distance < horizonRadius * 0.78) {
+          // Re-spawn matter in outer accretion ring to maintain continuous cosmic inflow
+          thread.distance = horizonRadius * 2.2 + Math.random() * (horizonRadius * 1.3);
+          thread.initialDistance = thread.distance;
+          thread.angle = Math.random() * Math.PI * 2;
+          thread.history = [];
+        }
       }
       ctx.restore();
 
