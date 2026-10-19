@@ -589,16 +589,16 @@ export const GitHubStatsWidget: React.FC<GitHubStatsWidgetProps> = ({ onNotify }
       </div>
 
       {/* High-Level Overview Metrics Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5 sm:gap-4">
         {/* Total Stars Metric */}
-        <div className="dark:bg-[#111722] bg-slate-50 border dark:border-[#1e2b3a] border-slate-200 rounded-xl p-3.5 sm:p-4 flex items-center gap-3 relative overflow-hidden group">
-          <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-none dark:bg-amber-400/10 bg-amber-50 text-amber-500 border dark:border-amber-400/30 border-amber-300">
+        <div className="dark:bg-[#0c121b] bg-slate-50 border dark:border-zinc-800 border-slate-200 rounded-xl p-4 flex items-center gap-3.5 relative overflow-hidden group hover:border-amber-400/60 dark:hover:border-amber-400/50 hover:shadow-md transition-all">
+          <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-none dark:bg-amber-400/15 bg-amber-50 text-amber-500 border dark:border-amber-400/30 border-amber-300 shadow-inner group-hover:scale-105 transition-transform">
             <Star className="w-5 h-5 fill-amber-400 text-amber-400" />
           </div>
           <div>
-            <div className="font-orbitron font-bold text-lg sm:text-xl dark:text-white text-slate-900 flex items-baseline gap-1">
+            <div className="font-orbitron font-bold text-xl sm:text-2xl dark:text-white text-slate-900 flex items-baseline gap-1">
               <span>{totalStarsCount}</span>
-              <span className="text-xs text-amber-500 font-mono">Stars</span>
+              <span className="text-[11px] text-amber-500 font-mono font-bold uppercase tracking-wider">Stars</span>
             </div>
             <p className="text-[11px] font-mono text-zinc-500 dark:text-zinc-400 truncate">
               Community Stargazers
@@ -607,14 +607,14 @@ export const GitHubStatsWidget: React.FC<GitHubStatsWidgetProps> = ({ onNotify }
         </div>
 
         {/* Repositories Count */}
-        <div className="dark:bg-[#111722] bg-slate-50 border dark:border-[#1e2b3a] border-slate-200 rounded-xl p-3.5 sm:p-4 flex items-center gap-3 relative overflow-hidden group">
-          <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-none dark:bg-[#00b8ff]/10 bg-sky-50 text-sky-500 border dark:border-[#00b8ff]/30 border-sky-300">
+        <div className="dark:bg-[#0c121b] bg-slate-50 border dark:border-zinc-800 border-slate-200 rounded-xl p-4 flex items-center gap-3.5 relative overflow-hidden group hover:border-sky-400/60 dark:hover:border-sky-400/50 hover:shadow-md transition-all">
+          <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-none dark:bg-sky-500/15 bg-sky-50 text-sky-500 border dark:border-sky-400/30 border-sky-300 shadow-inner group-hover:scale-105 transition-transform">
             <GitBranch className="w-5 h-5 text-sky-500 dark:text-[#00b8ff]" />
           </div>
           <div>
-            <div className="font-orbitron font-bold text-lg sm:text-xl dark:text-white text-slate-900 flex items-baseline gap-1">
+            <div className="font-orbitron font-bold text-xl sm:text-2xl dark:text-white text-slate-900 flex items-baseline gap-1">
               <span>{repos.length}</span>
-              <span className="text-xs text-sky-500 dark:text-[#00b8ff] font-mono">Open Suites</span>
+              <span className="text-[11px] text-sky-500 dark:text-[#00b8ff] font-mono font-bold uppercase tracking-wider">Suites</span>
             </div>
             <p className="text-[11px] font-mono text-zinc-500 dark:text-zinc-400 truncate">
               Research Repositories
@@ -623,14 +623,14 @@ export const GitHubStatsWidget: React.FC<GitHubStatsWidgetProps> = ({ onNotify }
         </div>
 
         {/* Tracked Commits */}
-        <div className="dark:bg-[#111722] bg-slate-50 border dark:border-[#1e2b3a] border-slate-200 rounded-xl p-3.5 sm:p-4 flex items-center gap-3 relative overflow-hidden group">
-          <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-none dark:bg-[#00ff41]/10 bg-emerald-50 text-emerald-600 border dark:border-[#00ff41]/30 border-emerald-300">
+        <div className="dark:bg-[#0c121b] bg-slate-50 border dark:border-zinc-800 border-slate-200 rounded-xl p-4 flex items-center gap-3.5 relative overflow-hidden group hover:border-emerald-400/60 dark:hover:border-emerald-400/50 hover:shadow-md transition-all">
+          <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-none dark:bg-emerald-500/15 bg-emerald-50 text-emerald-600 border dark:border-emerald-400/30 border-emerald-300 shadow-inner group-hover:scale-105 transition-transform">
             <GitCommit className="w-5 h-5 text-emerald-600 dark:text-[#00ff41]" />
           </div>
           <div>
-            <div className="font-orbitron font-bold text-lg sm:text-xl dark:text-white text-slate-900 flex items-baseline gap-1">
+            <div className="font-orbitron font-bold text-xl sm:text-2xl dark:text-white text-slate-900 flex items-baseline gap-1">
               <span>120+</span>
-              <span className="text-xs text-emerald-600 dark:text-[#00ff41] font-mono">Commits</span>
+              <span className="text-[11px] text-emerald-600 dark:text-[#00ff41] font-mono font-bold uppercase tracking-wider">Commits</span>
             </div>
             <p className="text-[11px] font-mono text-zinc-500 dark:text-zinc-400 truncate">
               Continuous Integration
@@ -639,14 +639,14 @@ export const GitHubStatsWidget: React.FC<GitHubStatsWidgetProps> = ({ onNotify }
         </div>
 
         {/* Release Artifacts */}
-        <div className="dark:bg-[#111722] bg-slate-50 border dark:border-[#1e2b3a] border-slate-200 rounded-xl p-3.5 sm:p-4 flex items-center gap-3 relative overflow-hidden group">
-          <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-none dark:bg-purple-500/10 bg-purple-50 text-purple-500 border dark:border-purple-400/30 border-purple-300">
+        <div className="dark:bg-[#0c121b] bg-slate-50 border dark:border-zinc-800 border-slate-200 rounded-xl p-4 flex items-center gap-3.5 relative overflow-hidden group hover:border-purple-400/60 dark:hover:border-purple-400/50 hover:shadow-md transition-all">
+          <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-none dark:bg-purple-500/15 bg-purple-50 text-purple-500 border dark:border-purple-400/30 border-purple-300 shadow-inner group-hover:scale-105 transition-transform">
             <Download className="w-5 h-5 text-purple-500 dark:text-purple-400" />
           </div>
           <div>
-            <div className="font-orbitron font-bold text-lg sm:text-xl dark:text-white text-slate-900 flex items-baseline gap-1">
+            <div className="font-orbitron font-bold text-xl sm:text-2xl dark:text-white text-slate-900 flex items-baseline gap-1">
               <span>810+</span>
-              <span className="text-xs text-purple-500 dark:text-purple-400 font-mono">Downloads</span>
+              <span className="text-[11px] text-purple-500 dark:text-purple-400 font-mono font-bold uppercase tracking-wider">Downloads</span>
             </div>
             <p className="text-[11px] font-mono text-zinc-500 dark:text-zinc-400 truncate">
               Abaqus Releases &amp; Models
@@ -657,33 +657,34 @@ export const GitHubStatsWidget: React.FC<GitHubStatsWidgetProps> = ({ onNotify }
 
       {/* Repository Selector Tabs */}
       <div>
-        <label className="text-xs font-mono uppercase tracking-wider font-semibold text-zinc-500 dark:text-zinc-400 mb-2.5 block">
-          Select Lab Project Repository:
+        <label className="text-xs font-mono uppercase tracking-wider font-semibold text-zinc-500 dark:text-zinc-400 mb-2.5 block flex items-center justify-between">
+          <span>Select Lab Project Repository:</span>
+          <span className="text-[10px] text-sky-500 dark:text-[#00b8ff] font-normal">Click to inspect commits &amp; releases</span>
         </label>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {repos.map((repo) => {
             const isSelected = repo.id === selectedRepoId;
             return (
               <button
                 key={repo.id}
                 onClick={() => setSelectedRepoId(repo.id)}
-                className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between gap-2 ${
+                className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between gap-2.5 ${
                   isSelected
-                    ? 'dark:bg-[#16202e] bg-sky-50/80 dark:border-[#00b8ff] border-sky-500 shadow-md ring-1 ring-sky-500/50'
-                    : 'dark:bg-[#10151f] bg-white dark:border-[#1e2733] border-slate-200 dark:hover:border-zinc-700 hover:border-slate-300 dark:hover:bg-[#131b26]'
+                    ? 'dark:bg-sky-950/40 bg-sky-50 dark:border-[#00b8ff] border-sky-500 shadow-md ring-1 ring-sky-500/50 dark:shadow-[0_0_20px_rgba(0,184,255,0.2)]'
+                    : 'dark:bg-[#0c121b] bg-white dark:border-zinc-800 border-slate-200 dark:hover:border-zinc-700 hover:border-slate-300 dark:hover:bg-[#111823]'
                 }`}
               >
                 <div className="flex items-start justify-between gap-1.5">
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-2 min-w-0">
                     <span
-                      className="w-2.5 h-2.5 rounded-full flex-none"
+                      className="w-2.5 h-2.5 rounded-full flex-none shadow-xs"
                       style={{ backgroundColor: repo.languageColor }}
                     />
                     <span className="font-orbitron font-bold text-xs dark:text-white text-slate-900 truncate">
                       {repo.name}
                     </span>
                   </div>
-                  <div className="flex items-center gap-1 text-[11px] font-mono text-amber-500">
+                  <div className="flex items-center gap-1 text-[11px] font-mono text-amber-500 font-bold shrink-0">
                     <Star className="w-3 h-3 fill-amber-400" />
                     <span>{repo.stars}</span>
                   </div>
@@ -693,11 +694,11 @@ export const GitHubStatsWidget: React.FC<GitHubStatsWidgetProps> = ({ onNotify }
                   {repo.description}
                 </p>
 
-                <div className="flex items-center justify-between text-[10px] font-mono text-zinc-400 pt-1 border-t dark:border-zinc-800/80 border-slate-100">
-                  <span className="text-zinc-500">{repo.primaryLanguage}</span>
-                  <span className="flex items-center gap-1">
+                <div className="flex items-center justify-between text-[10px] font-mono text-zinc-400 pt-1.5 border-t dark:border-zinc-800/80 border-slate-100">
+                  <span className="text-zinc-400 font-semibold">{repo.primaryLanguage}</span>
+                  <span className="flex items-center gap-1 text-zinc-500">
                     <GitFork className="w-3 h-3" />
-                    <span>{repo.forks}</span>
+                    <span>{repo.forks} forks</span>
                   </span>
                 </div>
               </button>
@@ -707,22 +708,22 @@ export const GitHubStatsWidget: React.FC<GitHubStatsWidgetProps> = ({ onNotify }
       </div>
 
       {/* Selected Repository Card & Live Feed */}
-      <div className="dark:bg-[#101621] bg-slate-50 border dark:border-[#22303f] border-slate-200 rounded-xl p-4 sm:p-6 space-y-6">
+      <div className="dark:bg-[#090f18] bg-slate-50 border dark:border-zinc-800/90 border-slate-200 rounded-2xl p-4 sm:p-6 space-y-6 shadow-xl">
         {/* Repo Header & Quick Actions */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b dark:border-[#1c2734] border-slate-200 pb-4">
-          <div className="space-y-1">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b dark:border-zinc-800/80 border-slate-200 pb-4">
+          <div className="space-y-1.5">
             <div className="flex flex-wrap items-center gap-2">
               <span className="font-orbitron text-base sm:text-lg font-bold dark:text-white text-slate-900">
                 {selectedRepo.fullName}
               </span>
-              <span className="px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider dark:bg-[#00ff41]/10 bg-emerald-100 dark:text-[#00ff41] text-emerald-800 border dark:border-[#00ff41]/40 border-emerald-400 font-bold">
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider dark:bg-[#00ff41]/10 bg-emerald-100 dark:text-[#00ff41] text-emerald-800 border dark:border-[#00ff41]/40 border-emerald-400 font-bold shadow-xs">
                 Public Repository
               </span>
               <span className="px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider dark:bg-zinc-800 bg-slate-200 dark:text-zinc-300 text-slate-700 border dark:border-zinc-700 border-slate-300">
                 {selectedRepo.license}
               </span>
               {selectedRepo.isLiveSynced && (
-                <span className="px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider dark:bg-[#00b8ff]/10 bg-sky-100 dark:text-[#00b8ff] text-sky-800 border dark:border-[#00b8ff]/40 border-sky-400 flex items-center gap-1">
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-wider dark:bg-sky-500/10 bg-sky-100 dark:text-[#00b8ff] text-sky-800 border dark:border-sky-500/40 border-sky-400 flex items-center gap-1 font-semibold">
                   <Activity className="w-2.5 h-2.5" />
                   Live Sync
                 </span>
@@ -738,7 +739,7 @@ export const GitHubStatsWidget: React.FC<GitHubStatsWidgetProps> = ({ onNotify }
             {/* Clone Button */}
             <button
               onClick={(e) => handleCopyClone(selectedRepo.cloneUrl, selectedRepo.name, e)}
-              className="px-3 py-1.5 rounded-lg text-xs font-mono dark:bg-[#1b2636] bg-white hover:bg-slate-100 dark:hover:bg-[#233145] border dark:border-[#2f4258] border-slate-300 dark:text-zinc-200 text-slate-800 flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
+              className="px-3.5 py-1.5 rounded-lg text-xs font-mono dark:bg-zinc-900 bg-white hover:bg-slate-100 dark:hover:bg-zinc-800 border dark:border-zinc-700 border-slate-300 dark:text-zinc-200 text-slate-800 flex items-center gap-1.5 transition-all cursor-pointer shadow-xs active:scale-95"
               title="Copy git clone command"
             >
               {copiedCloneId === selectedRepo.name ? (

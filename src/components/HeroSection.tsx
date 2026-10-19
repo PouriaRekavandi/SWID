@@ -3,7 +3,7 @@ import { TabKey } from '../types';
 import { ThemeSwitcher } from './ThemeSwitcher';
 import { AudioControl } from './AudioControl';
 import { useEventHorizonAudio } from '../context/AudioContext';
-import { ArrowRight, GraduationCap, PlayCircle, Bot, Sparkles, Orbit } from 'lucide-react';
+import { ArrowRight, GraduationCap, PlayCircle, Bot, Sparkles, Orbit, RefreshCw } from 'lucide-react';
 import { BlackHoleHero } from './BlackHoleHero';
 import { BlackHoleLogoCrest } from './BlackHoleLogoCrest';
 
@@ -18,6 +18,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectTab }) => {
   const [isLensingHovered, setIsLensingHovered] = useState(false);
   const [mouseProximity, setMouseProximity] = useState(0); // 0 (far) to 1 (at black hole core)
   const [mouseVector, setMouseVector] = useState({ x: 0, y: 0 });
+  const [genesisKey, setGenesisKey] = useState(0);
+  const [isMaterializing, setIsMaterializing] = useState(false);
 
   const logoRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLElement>(null);
@@ -125,7 +127,84 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectTab }) => {
         onMouseLeave={handleMouseLeave}
         className="relative isolate flex flex-col items-center justify-start min-h-[520px] sm:min-h-[640px] pt-4 sm:pt-6 pb-12 sm:pb-16 px-4"
       >
-        {/* Persistent Audio & Theme Controls in Header */}
+        {/* Top-Left Corner Cosmic Controls: Singularity Genesis & Gravitational Lensing */}
+        <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-30 flex items-center gap-2 sm:gap-2.5">
+          {/* Singularity Genesis Control */}
+          <button
+            onClick={() => setGenesisKey((prev) => prev + 1)}
+            className="group/genesis inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-[11px] font-mono tracking-wider uppercase transition-all duration-300 bg-black/60 hover:bg-black/85 border border-amber-500/40 hover:border-amber-400 text-amber-200/90 hover:text-white shadow-[0_0_15px_rgba(245,158,11,0.2)] hover:shadow-[0_0_22px_rgba(245,158,11,0.45)] cursor-pointer backdrop-blur-md"
+            title="Trigger black hole singularity creation and logo genesis sequence"
+            aria-label="Singularity Genesis Birth Trigger"
+          >
+            <span
+              className={`w-1.5 h-1.5 rounded-full ${
+                isMaterializing ? 'bg-amber-400 animate-ping' : 'bg-amber-400/80'
+              }`}
+            />
+            <Sparkles
+              className={`w-3 h-3 text-amber-300 ${
+                isMaterializing ? 'rotate-45 text-amber-100' : 'group-hover/genesis:rotate-45'
+              } transition-transform duration-300`}
+            />
+            <span className="hidden sm:inline font-semibold">
+              {isMaterializing ? 'Forging…' : 'Singularity Genesis'}
+            </span>
+            <span className="sm:hidden font-semibold">
+              {isMaterializing ? 'Forging…' : 'Genesis'}
+            </span>
+            <RefreshCw
+              className={`w-2.5 h-2.5 text-amber-400/80 ${
+                isMaterializing ? 'animate-spin text-amber-200' : 'group-hover/genesis:text-amber-300'
+              }`}
+            />
+          </button>
+
+          {/* Gravitational Lensing Mode Control */}
+          <button
+            onClick={cycleLensingMode}
+            className={`group/lens inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-[11px] font-mono tracking-wider uppercase transition-all duration-300 border cursor-pointer backdrop-blur-md ${
+              lensingMode === 'off'
+                ? 'bg-zinc-900/70 border-zinc-700/60 text-zinc-400 hover:text-zinc-200 hover:border-zinc-500'
+                : lensingMode === 'enhanced'
+                ? 'bg-amber-950/70 border-amber-400 text-amber-200 shadow-[0_0_20px_rgba(245,158,11,0.45)]'
+                : 'bg-black/60 border-amber-500/40 text-amber-300/90 hover:border-amber-400 hover:text-white shadow-[0_0_15px_rgba(245,158,11,0.2)]'
+            }`}
+            title="Toggle Gravitational Lensing light bending modes (Subtle / Enhanced / Off)"
+            aria-label="Toggle Gravitational Lensing Distortion"
+          >
+            <Orbit
+              className={`w-3 h-3 transition-transform duration-500 ${
+                lensingMode !== 'off' ? 'text-amber-400 group-hover/lens:rotate-90' : 'text-zinc-500'
+              }`}
+            />
+            <span className="hidden sm:inline font-semibold">
+              Lensing:
+            </span>
+            <span
+              className={`font-bold ${
+                lensingMode === 'off'
+                  ? 'text-zinc-400'
+                  : lensingMode === 'enhanced'
+                  ? 'text-amber-300'
+                  : 'text-amber-400'
+              }`}
+            >
+              {lensingMode === 'off' ? 'Off' : lensingMode === 'enhanced' ? 'Enhanced' : 'Subtle'}
+            </span>
+            {mouseProximity > 0.05 && lensingMode !== 'off' && (
+              <span className="text-[9px] text-amber-300/80 font-mono tracking-normal hidden md:inline ml-0.5">
+                ({Math.round(mouseProximity * 100)}%)
+              </span>
+            )}
+            <span
+              className={`w-1.5 h-1.5 rounded-full ${
+                lensingMode !== 'off' ? 'bg-amber-400 animate-ping opacity-75' : 'bg-zinc-600'
+              }`}
+            />
+          </button>
+        </div>
+
+        {/* Persistent Audio & Theme Controls in Header (Top-Right) */}
         <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-30 flex items-center gap-2 sm:gap-2.5">
           <AudioControl variant="hero" />
           <ThemeSwitcher variant="hero" />
@@ -147,7 +226,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectTab }) => {
               : 'none',
           }}
         >
-          <BlackHoleLogoCrest className="w-full max-w-[480px] sm:max-w-[540px]" />
+          <BlackHoleLogoCrest
+            externalGenesisKey={genesisKey}
+            onMaterializingChange={setIsMaterializing}
+            className="w-full max-w-[480px] sm:max-w-[540px]"
+          />
         </div>
 
         {/* 
@@ -182,47 +265,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectTab }) => {
         <div
           className="relative z-10 flex flex-col items-center text-center max-w-4xl px-2 w-full transition-all duration-300 ease-out"
         >
-          {/* Gravitational Lensing Mode Control Chip */}
-          <div className="mb-3.5 inline-flex items-center gap-2">
-            <button
-              onClick={cycleLensingMode}
-              className={`group/lens inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono tracking-wider uppercase transition-all duration-300 border cursor-pointer backdrop-blur-md ${
-                lensingMode === 'off'
-                  ? 'bg-zinc-900/70 border-zinc-700/60 text-zinc-400 hover:text-zinc-200 hover:border-zinc-500'
-                  : lensingMode === 'enhanced'
-                  ? 'bg-amber-950/70 border-amber-400 text-amber-200 shadow-[0_0_20px_rgba(245,158,11,0.45)]'
-                  : 'bg-black/60 border-amber-500/40 text-amber-300/90 hover:border-amber-400 hover:text-white shadow-[0_0_15px_rgba(245,158,11,0.2)]'
-              }`}
-              title="Click to toggle Gravitational Lensing mode (Subtle / Enhanced / Off)"
-              aria-label="Toggle Gravitational Lensing Distortion"
-            >
-              <Orbit
-                className={`w-3 h-3 transition-transform duration-500 ${
-                  lensingMode !== 'off' ? 'text-amber-400 group-hover/lens:rotate-90' : 'text-zinc-500'
-                }`}
-              />
-              <span className="font-semibold">
-                Gravitational Lensing:
-              </span>
-              <span
-                className={`font-bold ${
-                  lensingMode === 'off'
-                    ? 'text-zinc-400'
-                    : lensingMode === 'enhanced'
-                    ? 'text-amber-300 underline underline-offset-2'
-                    : 'text-amber-400'
-                }`}
-              >
-                {lensingMode === 'off' ? 'Off' : lensingMode === 'enhanced' ? 'Enhanced Warp' : 'Subtle Bending'}
-              </span>
-              {mouseProximity > 0.05 && (
-                <span className="text-[9px] text-amber-300/80 font-mono tracking-normal ml-0.5">
-                  ({Math.round(mouseProximity * 100)}% Warp)
-                </span>
-              )}
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping opacity-75" />
-            </button>
-          </div>
 
           {/* 
             Cursive Title Block with Gravitational Light Bending & Mouse Proximity Distortion

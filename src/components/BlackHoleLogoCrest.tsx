@@ -5,25 +5,42 @@ import { Sparkles, RefreshCw } from 'lucide-react';
 
 interface BlackHoleLogoCrestProps {
   className?: string;
+  externalGenesisKey?: number;
+  onMaterializingChange?: (materializing: boolean) => void;
+  showEmbeddedChip?: boolean;
 }
 
-export const BlackHoleLogoCrest: React.FC<BlackHoleLogoCrestProps> = ({ className = '' }) => {
+export const BlackHoleLogoCrest: React.FC<BlackHoleLogoCrestProps> = ({
+  className = '',
+  externalGenesisKey,
+  onMaterializingChange,
+  showEmbeddedChip = false,
+}) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isMaterializing, setIsMaterializing] = useState(true);
-  const [genesisKey, setGenesisKey] = useState(0);
+  const [internalGenesisKey, setInternalGenesisKey] = useState(0);
 
-  // Trigger singularity genesis birth sequence on initial mount
+  // Sync external genesis trigger
+  useEffect(() => {
+    if (externalGenesisKey !== undefined && externalGenesisKey > 0) {
+      setInternalGenesisKey(externalGenesisKey);
+    }
+  }, [externalGenesisKey]);
+
+  // Trigger singularity genesis birth sequence on initial mount or key change
   useEffect(() => {
     setIsMaterializing(true);
+    onMaterializingChange?.(true);
     const timer = setTimeout(() => {
       setIsMaterializing(false);
+      onMaterializingChange?.(false);
     }, 2400);
     return () => clearTimeout(timer);
-  }, [genesisKey]);
+  }, [internalGenesisKey, onMaterializingChange]);
 
   // Allows user to click and re-forge the logo from the black hole singularity
   const handleTriggerSingularity = () => {
-    setGenesisKey((prev) => prev + 1);
+    setInternalGenesisKey((prev) => prev + 1);
   };
 
   return (
@@ -238,7 +255,7 @@ export const BlackHoleLogoCrest: React.FC<BlackHoleLogoCrestProps> = ({ classNam
           {/* Expanding Singularity Shockwave Blast Rings when Materializing */}
           {isMaterializing && (
             <div
-              key={`shockwaves-${genesisKey}`}
+              key={`shockwaves-${internalGenesisKey}`}
               aria-hidden="true"
               className="absolute inset-0 z-20 pointer-events-none flex items-center justify-center overflow-visible"
             >
@@ -328,7 +345,7 @@ export const BlackHoleLogoCrest: React.FC<BlackHoleLogoCrestProps> = ({ classNam
           {/* 9. The SWID-SHRK Master Crest Logo — Manifested from the Singularity */}
           <div className="relative z-20 w-full h-full flex items-center justify-center p-2.5 sm:p-3.5 rounded-full overflow-hidden">
             <img
-              key={`crest-genesis-${genesisKey}`}
+              key={`crest-genesis-${internalGenesisKey}`}
               src={logoTransparent}
               alt="SWID-SHRK Research Group Crest Logo"
               loading="eager"
@@ -380,23 +397,25 @@ export const BlackHoleLogoCrest: React.FC<BlackHoleLogoCrestProps> = ({ classNam
         </div>
       </div>
 
-      {/* 10. Singularity Genesis Interactive Status Chip */}
-      <div className="relative z-30 -mt-2 flex items-center justify-center">
-        <button
-          onClick={handleTriggerSingularity}
-          className="group/btn inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono tracking-wider uppercase transition-all duration-200 bg-black/60 hover:bg-black/85 border border-amber-500/40 hover:border-amber-400 text-amber-200/90 hover:text-white shadow-[0_0_15px_rgba(245,158,11,0.2)] hover:shadow-[0_0_22px_rgba(245,158,11,0.45)] cursor-pointer backdrop-blur-md"
-          title="Click to trigger black hole singularity creation cycle"
-        >
-          <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping mr-0.5" />
-          <Sparkles className="w-3 h-3 text-amber-300 group-hover/btn:rotate-45 transition-transform" />
-          <span>{isMaterializing ? 'Forging from Singularity…' : 'Singularity Genesis'}</span>
-          <RefreshCw
-            className={`w-2.5 h-2.5 text-amber-400/70 group-hover/btn:text-amber-300 ${
-              isMaterializing ? 'animate-spin' : ''
-            }`}
-          />
-        </button>
-      </div>
+      {/* 10. Singularity Genesis Interactive Status Chip (Only shown if requested, now placed in corner by default) */}
+      {showEmbeddedChip && (
+        <div className="relative z-30 -mt-2 flex items-center justify-center">
+          <button
+            onClick={handleTriggerSingularity}
+            className="group/btn inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono tracking-wider uppercase transition-all duration-200 bg-black/60 hover:bg-black/85 border border-amber-500/40 hover:border-amber-400 text-amber-200/90 hover:text-white shadow-[0_0_15px_rgba(245,158,11,0.2)] hover:shadow-[0_0_22px_rgba(245,158,11,0.45)] cursor-pointer backdrop-blur-md"
+            title="Click to trigger black hole singularity creation cycle"
+          >
+            <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping mr-0.5" />
+            <Sparkles className="w-3 h-3 text-amber-300 group-hover/btn:rotate-45 transition-transform" />
+            <span>{isMaterializing ? 'Forging from Singularity…' : 'Singularity Genesis'}</span>
+            <RefreshCw
+              className={`w-2.5 h-2.5 text-amber-400/70 group-hover/btn:text-amber-300 ${
+                isMaterializing ? 'animate-spin' : ''
+              }`}
+            />
+          </button>
+        </div>
+      )}
     </div>
   );
 };

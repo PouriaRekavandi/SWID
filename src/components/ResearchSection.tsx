@@ -20,7 +20,19 @@ import {
   Check,
   BookOpen,
   Sparkles,
-  Tag
+  Tag,
+  Film,
+  MonitorPlay,
+  Terminal,
+  FileCode,
+  HardDrive,
+  Maximize2,
+  ChevronRight,
+  Shield,
+  Crosshair,
+  TrendingUp,
+  Gauge,
+  Zap
 } from 'lucide-react';
 
 interface ResearchItem {
@@ -670,15 +682,60 @@ export const ResearchSection: React.FC<ResearchSectionProps> = ({ onNotify }) =>
           {/* Research Modules (Accordions) */}
           {modules.length > 0 && (
             <div className="space-y-4">
-              <div className="flex items-center justify-between pb-1">
-                <h3 className="font-section-title text-lg sm:text-xl font-bold uppercase tracking-wider dark:text-white text-slate-900 flex items-center">
-                  <span className="dark:text-[#00ff41] text-emerald-600 font-mono mr-2 select-none">//</span>
-                  <span>Core Curriculum &amp; Research Modules (I &ndash; IV)</span>
-                </h3>
-                <span className="text-xs font-mono dark:text-zinc-400 text-slate-500 hidden sm:inline">
-                  {modules.length} {modules.length === 1 ? 'module' : 'modules'}
-                </span>
+              {/* Executive Curriculum Header & Scope Card */}
+              <div className="rounded-2xl p-5 sm:p-6 border transition-all duration-300 dark:bg-gradient-to-r dark:from-[#060c14] dark:via-[#0a1626] dark:to-[#060c14] bg-gradient-to-r from-slate-50 via-sky-50/60 to-slate-50 dark:border-sky-500/30 border-sky-200 shadow-lg">
+                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b dark:border-zinc-800/80 border-slate-200">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                      <span className="text-[10px] font-mono font-bold tracking-widest uppercase px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-emerald-600 dark:text-[#00ff41] shadow-[0_0_10px_rgba(0,255,65,0.2)]">
+                        GRADUATE CURRICULUM // MECH-AERO
+                      </span>
+                      <span className="text-xs font-mono font-semibold dark:text-zinc-400 text-slate-500 flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-sky-400" />
+                        {modules.length} {modules.length === 1 ? 'Core Module' : 'Core Modules'} (I &ndash; IV)
+                      </span>
+                    </div>
+                    <h3 className="font-section-title text-xl sm:text-2xl font-bold uppercase tracking-wide dark:text-white text-slate-900 flex items-center gap-2">
+                      <span className="text-emerald-500 dark:text-[#00ff41] font-mono select-none">//</span>
+                      <span>Core Curriculum &amp; Research Modules (I &ndash; IV)</span>
+                    </h3>
+                  </div>
+
+                  {/* Header Actions: Expand/Collapse All + Video Quick Badge */}
+                  <div className="flex items-center gap-2.5 flex-wrap">
+                    <button
+                      type="button"
+                      onClick={expandAll}
+                      className="px-3.5 py-1.5 rounded-lg text-xs font-mono font-semibold dark:bg-zinc-900/90 bg-white border dark:border-zinc-700 border-slate-300 dark:text-zinc-200 text-slate-700 hover:border-sky-500 hover:text-sky-600 dark:hover:text-[#00b8ff] transition-all cursor-pointer shadow-xs active:scale-95"
+                    >
+                      Expand All
+                    </button>
+                    <button
+                      type="button"
+                      onClick={collapseAll}
+                      className="px-3.5 py-1.5 rounded-lg text-xs font-mono font-semibold dark:bg-zinc-900/90 bg-white border dark:border-zinc-700 border-slate-300 dark:text-zinc-200 text-slate-700 hover:border-sky-500 hover:text-sky-600 dark:hover:text-[#00b8ff] transition-all cursor-pointer shadow-xs active:scale-95"
+                    >
+                      Collapse All
+                    </button>
+                  </div>
+                </div>
+
+                {/* Scope Description & Simulation Environment Telemetry */}
+                <div className="pt-3.5 flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs font-mono">
+                  <p className="dark:text-zinc-300 text-slate-700 leading-relaxed max-w-3xl">
+                    <span className="font-bold text-sky-600 dark:text-[#00b8ff] uppercase tracking-wider">Research Scope: </span>
+                    Investigation into mechanical energy dissipation, cellular metamaterials, AntiPrism unit cells, and dynamic impact mitigation.
+                  </p>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold dark:bg-emerald-950/60 bg-emerald-50 border dark:border-emerald-500/40 border-emerald-300 dark:text-[#00ff41] text-emerald-800 shadow-[0_0_12px_rgba(0,255,65,0.15)]">
+                      <Film className="w-3.5 h-3.5" />
+                      AntiPrism CAE Studio Active
+                    </span>
+                  </div>
+                </div>
               </div>
+
+              {/* Module Accordions */}
               {modules.map((item) => {
                 const isOpen = openAccordions[item.id] ?? false;
                 const isCopied = copiedId === item.id;
@@ -687,10 +744,10 @@ export const ResearchSection: React.FC<ResearchSectionProps> = ({ onNotify }) =>
                   <div
                     key={item.id}
                     id={item.id}
-                    className={`overflow-hidden rounded-lg border transition-all duration-300 ${
+                    className={`overflow-hidden rounded-xl border transition-all duration-300 ${
                       isOpen
-                        ? 'dark:bg-[#121b24]/90 bg-sky-50/80 dark:border-[#00ff41] border-sky-600 shadow-sm'
-                        : 'dark:bg-[#141414]/70 bg-white dark:border-[#333333] border-slate-200 hover:border-sky-500 shadow-sm'
+                        ? 'dark:bg-[#070c14]/95 bg-white dark:border-[#00ff41]/75 border-sky-600 shadow-[0_8px_30px_rgba(0,0,0,0.45),0_0_16px_rgba(0,255,65,0.1)] ring-1 dark:ring-[#00ff41]/20 ring-sky-500/20'
+                        : 'dark:bg-[#0c1017]/80 bg-white dark:border-zinc-800 border-slate-200 hover:border-sky-500/70 hover:shadow-md'
                     }`}
                   >
                     <h3>
@@ -705,15 +762,38 @@ export const ResearchSection: React.FC<ResearchSectionProps> = ({ onNotify }) =>
                           }
                         }}
                         aria-expanded={isOpen}
-                        className="w-full px-5 py-4 flex items-center justify-between text-left cursor-pointer group select-none"
+                        className="w-full px-5 py-4 flex items-center justify-between text-left cursor-pointer group select-none transition-colors"
                       >
-                        <div className="flex items-center gap-3 sm:gap-4 flex-wrap flex-1 mr-3">
-                          <span className="font-orbitron font-bold text-sm dark:text-[#00b8ff] text-sky-700 w-6 flex-none">
+                        <div className="flex items-center gap-3.5 sm:gap-4 flex-wrap flex-1 mr-3">
+                          {/* Geometric Roman Numeral Badge */}
+                          <div
+                            className={`w-8 h-8 rounded-lg flex items-center justify-center font-orbitron font-bold text-xs shrink-0 transition-all duration-300 ${
+                              isOpen
+                                ? 'dark:bg-[#00ff41]/20 bg-emerald-100 dark:text-[#00ff41] text-emerald-800 border dark:border-[#00ff41] border-emerald-500 shadow-[0_0_12px_rgba(0,255,65,0.35)]'
+                                : 'dark:bg-zinc-900 bg-slate-100 dark:text-[#00b8ff] text-sky-700 border dark:border-zinc-800 border-slate-300 group-hover:border-sky-500'
+                            }`}
+                          >
                             {item.numeral}
-                          </span>
-                          <span className="font-bold text-sm sm:text-base dark:text-white text-slate-900 group-hover:text-sky-700 dark:group-hover:text-[#00ff41] transition-colors">
-                            <HighlightText text={item.title} query={searchQuery} />
-                          </span>
+                          </div>
+
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2.5 flex-wrap">
+                              <span className="font-bold text-sm sm:text-base dark:text-white text-slate-900 group-hover:text-sky-600 dark:group-hover:text-[#00ff41] transition-colors">
+                                <HighlightText text={item.title} query={searchQuery} />
+                              </span>
+                              {item.id === 'mod-3' && (
+                                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold tracking-wider uppercase bg-gradient-to-r from-emerald-500/20 to-sky-500/20 border border-emerald-500/40 text-emerald-400 dark:text-[#00ff41] shadow-[0_0_12px_rgba(0,255,65,0.2)]">
+                                  <MonitorPlay className="w-3 h-3 text-[#00ff41]" />
+                                  Interactive CAE Video Lab (492 MB)
+                                </span>
+                              )}
+                            </div>
+                            {item.highlight && (
+                              <p className="text-xs font-mono dark:text-zinc-400 text-slate-500 mt-0.5 line-clamp-1">
+                                {item.highlight}
+                              </p>
+                            )}
+                          </div>
 
                           {/* Item Tags */}
                           <div className="flex items-center gap-1.5 ml-auto sm:ml-2">
@@ -721,7 +801,7 @@ export const ResearchSection: React.FC<ResearchSectionProps> = ({ onNotify }) =>
                               <span
                                 key={t}
                                 onClick={(e) => handleTagClick(t, e)}
-                                className={`text-[10px] font-mono px-2 py-0.5 rounded-full border transition-colors ${
+                                className={`text-[10px] font-mono px-2 py-0.5 rounded-md border transition-colors ${
                                   selectedTag === t
                                     ? 'dark:bg-[#00ff41]/20 dark:border-[#00ff41] border-emerald-600 dark:text-[#00ff41] text-emerald-800 font-bold'
                                     : 'dark:bg-black/40 bg-slate-100 dark:border-zinc-800 border-slate-200 dark:text-zinc-400 text-slate-600 hover:border-sky-500'
@@ -740,7 +820,7 @@ export const ResearchSection: React.FC<ResearchSectionProps> = ({ onNotify }) =>
                             onClick={(e) => handleShare(item, e)}
                             title={`Copy project link for ${item.title}`}
                             aria-label={`Share ${item.title}`}
-                            className={`px-2.5 py-1.5 rounded-md text-xs font-mono flex items-center gap-1.5 transition-all duration-200 cursor-pointer ${
+                            className={`px-2.5 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 transition-all duration-200 cursor-pointer ${
                               isCopied
                                 ? 'dark:bg-[#00ff41]/20 bg-emerald-100 dark:text-[#00ff41] text-emerald-800 border dark:border-[#00ff41] border-emerald-500 font-bold shadow-xs'
                                 : 'dark:bg-zinc-900/80 bg-slate-100 dark:hover:bg-zinc-800 hover:bg-slate-200 dark:text-zinc-300 text-slate-700 dark:border-zinc-700 border-slate-300 hover:border-sky-500 dark:hover:text-[#00b8ff] hover:text-sky-700 border'
@@ -759,162 +839,268 @@ export const ResearchSection: React.FC<ResearchSectionProps> = ({ onNotify }) =>
                             )}
                           </button>
 
-                          <ChevronDown
-                            className={`w-5 h-5 dark:text-[#00ff41] text-sky-700 transition-transform duration-300 ${
-                              isOpen ? 'rotate-180' : ''
-                            }`}
-                          />
+                          <div className={`p-1 rounded-lg transition-transform duration-300 ${isOpen ? 'rotate-180 bg-sky-500/10' : ''}`}>
+                            <ChevronDown className="w-5 h-5 dark:text-[#00ff41] text-sky-700" />
+                          </div>
                         </div>
                       </div>
                     </h3>
 
                     {isOpen && (
-                      <div className="px-5 pb-6 pt-1 text-sm dark:text-zinc-300 text-slate-700 font-mono leading-relaxed border-t dark:border-zinc-800 border-slate-200 space-y-4">
-                        <p>
+                      <div className="px-5 pb-6 pt-2 text-sm dark:text-zinc-300 text-slate-700 font-mono leading-relaxed border-t dark:border-zinc-800/80 border-slate-200 space-y-5">
+                        <p className="dark:text-zinc-200 text-slate-800 leading-relaxed text-xs sm:text-sm">
                           <HighlightText text={item.desc} query={searchQuery} />
                         </p>
 
-                        {/* Module-Specific Content */}
+                        {/* Module I Specific Content */}
                         {item.id === 'mod-1' && (
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                            <div className="p-3 dark:bg-black/40 bg-white border dark:border-zinc-800 border-slate-200 rounded shadow-xs">
-                              <div className="text-xs font-bold dark:text-[#00b8ff] text-sky-700 uppercase mb-1">
-                                Multiaxial Life Models
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                            <div className="p-4 dark:bg-black/50 bg-slate-50 border dark:border-zinc-800 border-slate-200 rounded-xl space-y-1.5 shadow-sm">
+                              <div className="flex items-center justify-between">
+                                <span className="text-xs font-bold dark:text-[#00b8ff] text-sky-700 uppercase tracking-wider">
+                                  Multiaxial Life Models
+                                </span>
+                                <span className="text-[10px] font-mono dark:text-zinc-500 text-slate-400">Findley &amp; Brown-Miller</span>
                               </div>
                               <p className="text-xs dark:text-zinc-400 text-slate-600">
-                                Critical plane approaches combined with Findley &amp; Brown-Miller criteria for non-proportional cycle counting.
+                                Critical plane formulations combined with stress-intensity factors (<span className="text-sky-400">K<sub>I</sub>, K<sub>II</sub>, K<sub>III</sub></span>) and Paris law for non-proportional cycle counting.
                               </p>
+                              <div className="text-[11px] font-mono text-emerald-500 dark:text-[#00ff41] pt-1">
+                                &tau;<sub>n</sub> + k &sigma;<sub>n</sub> &le; &sigma;<sub>f</sub> &bull; Cumulative Damage Accumulation
+                              </div>
                             </div>
-                            <div className="p-3 dark:bg-black/40 bg-white border dark:border-zinc-800 border-slate-200 rounded shadow-xs">
-                              <div className="text-xs font-bold dark:text-[#00ff41] text-emerald-700 uppercase mb-1">
-                                Abaqus Subroutines
+                            <div className="p-4 dark:bg-black/50 bg-slate-50 border dark:border-zinc-800 border-slate-200 rounded-xl space-y-1.5 shadow-sm">
+                              <div className="flex items-center justify-between">
+                                <span className="text-xs font-bold dark:text-[#00ff41] text-emerald-700 uppercase tracking-wider">
+                                  Abaqus Subroutines
+                                </span>
+                                <span className="text-[10px] font-mono dark:text-zinc-500 text-slate-400">UMAT / VUMAT</span>
                               </div>
                               <p className="text-xs dark:text-zinc-400 text-slate-600">
-                                Implementation of custom cyclic damage accumulation subroutines and cohesive element degradation.
+                                Implementation of custom cyclic damage accumulation subroutines and cohesive element degradation under multiaxial loading paths.
                               </p>
+                              <div className="text-[11px] font-mono text-sky-400 pt-1">
+                                Fortran 90 Core &bull; Cohesive Zone Degradation
+                              </div>
                             </div>
                           </div>
                         )}
 
+                        {/* Module II Specific Content */}
                         {item.id === 'mod-2' && (
-                          <div className="p-3 dark:bg-black/40 bg-white border dark:border-zinc-800 border-slate-200 rounded shadow-xs">
-                            <div className="text-xs font-bold dark:text-[#00ff41] text-emerald-700 uppercase mb-1">
-                              High-Rate Viscoelasticity
-                            </div>
-                            <p className="text-xs dark:text-zinc-400 text-slate-600">
-                              Nonlinear Ogden and Mooney-Rivlin hyperelastic formulations coupled with Prony series relaxation spectra to quantify localized cellular shears under blast overpressures.
-                            </p>
-                          </div>
-                        )}
-
-                        {item.id === 'mod-3' && (
-                          <div className="p-4 sm:p-5 dark:bg-[#0b1016] bg-white border dark:border-[#00b8ff]/30 border-slate-300 rounded-xl space-y-4 shadow-sm">
-                            <div className="flex items-center justify-between flex-wrap gap-2 pb-2 border-b dark:border-[#00b8ff]/20 border-slate-200">
-                              <h4 className="font-section-title font-bold text-base sm:text-lg dark:text-[#00b8ff] text-sky-700 flex items-center uppercase tracking-wide">
-                                <span className="dark:text-[#00ff41] text-emerald-600 font-mono mr-2 select-none">//</span>
-                                <span>Research Environment: AntiPrism Structures</span>
-                              </h4>
-                              <span className="text-xs dark:text-zinc-400 text-slate-500 font-mono">
-                                Select a tutorial part from the playlist below
+                          <div className="p-4 dark:bg-black/50 bg-slate-50 border dark:border-zinc-800 border-slate-200 rounded-xl space-y-2 shadow-sm">
+                            <div className="flex items-center justify-between">
+                              <span className="text-xs font-bold dark:text-[#00ff41] text-emerald-700 uppercase tracking-wider">
+                                High-Rate Viscoelasticity &amp; Traumatic Brain Injury
+                              </span>
+                              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-900 border border-zinc-700 text-zinc-300">
+                                d&epsilon;/dt &gt; 50 s<sup>-1</sup>
                               </span>
                             </div>
+                            <p className="text-xs dark:text-zinc-400 text-slate-600">
+                              Nonlinear Ogden and Mooney-Rivlin hyperelastic formulations coupled with Prony series relaxation spectra to quantify localized cellular shear strains and axonal stretch under blast overpressures.
+                            </p>
+                            <div className="flex flex-wrap gap-2 pt-1 text-[11px] font-mono">
+                              <span className="text-sky-400">&bull; Ogden Strain Energy Potential</span>
+                              <span className="text-zinc-500">|</span>
+                              <span className="text-amber-400">&bull; Prony Viscoelastic Relaxation</span>
+                              <span className="text-zinc-500">|</span>
+                              <span className="text-emerald-400">&bull; Axonal Injury Strain Metric</span>
+                            </div>
+                          </div>
+                        )}
 
-                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                              <div className="lg:col-span-2 bg-black border dark:border-zinc-800 border-slate-800 rounded-lg p-3 space-y-3">
-                                <div className="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-zinc-800">
-                                  <div className="flex items-center gap-2">
-                                    <span className="font-bold text-xs sm:text-sm text-[#00b8ff] flex items-center gap-2">
-                                      <Play className="w-3.5 h-3.5 text-[#00ff41]" />
-                                      {currentVideo.title}
-                                    </span>
-                                    {currentVideo.duration && (
-                                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-900 border border-zinc-700 text-zinc-300">
-                                        {currentVideo.duration}
-                                      </span>
-                                    )}
+                        {/* Module III: Research Environment: AntiPrism Structures (Cinema Simulation Console) */}
+                        {item.id === 'mod-3' && (
+                          <div className="rounded-2xl dark:bg-gradient-to-b dark:from-[#050a12] dark:via-[#08101a] dark:to-[#04070c] bg-gradient-to-b from-slate-50 via-sky-50/40 to-slate-50 border dark:border-sky-500/35 border-sky-300 p-4 sm:p-6 space-y-5 shadow-[0_12px_40px_rgba(0,0,0,0.6),0_0_24px_rgba(0,184,255,0.12)]">
+                            {/* Simulation Console Top Header Bar */}
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3.5 border-b dark:border-zinc-800/90 border-slate-200">
+                              <div className="flex items-start sm:items-center gap-3">
+                                <span className="relative flex h-3 w-3 mt-1 sm:mt-0">
+                                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                  <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                                </span>
+                                <div>
+                                  <h4 className="font-section-title font-bold text-base sm:text-lg dark:text-[#00b8ff] text-sky-700 flex items-center uppercase tracking-wide">
+                                    <span className="dark:text-[#00ff41] text-emerald-600 font-mono mr-2 select-none">//</span>
+                                    <span>Research Environment: AntiPrism Structures</span>
+                                  </h4>
+                                  <p className="text-xs dark:text-zinc-400 text-slate-500 font-mono mt-0.5">
+                                    Select a tutorial part from the playlist below &bull; Abaqus 2024 Dynamic Explicit Workbench
+                                  </p>
+                                </div>
+                              </div>
+
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="text-[10px] font-mono px-2.5 py-1 rounded-md dark:bg-black/60 bg-white border dark:border-zinc-800 border-slate-200 text-zinc-400 dark:text-zinc-300 flex items-center gap-1.5 shadow-xs">
+                                  <Terminal className="w-3 h-3 text-sky-400" />
+                                  Python 3.10 Scripted
+                                </span>
+                                <span className="text-[10px] font-mono px-2.5 py-1 rounded-md dark:bg-emerald-950/40 bg-emerald-50 border dark:border-emerald-500/30 border-emerald-300 text-emerald-600 dark:text-[#00ff41] font-semibold flex items-center gap-1 shadow-xs">
+                                  <CheckCircle2 className="w-3 h-3" />
+                                  Abaqus 2024
+                                </span>
+                              </div>
+                            </div>
+
+                            {/* Main Stage: Left 2-Cols Video Viewport, Right Col Interactive Playlist */}
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+                              {/* Left Video Stage */}
+                              <div className="lg:col-span-2 bg-black border dark:border-zinc-800 border-slate-800 rounded-xl p-3.5 space-y-3.5 shadow-2xl">
+                                {/* Video Top Action HUD */}
+                                <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-zinc-800/80">
+                                  <div className="flex items-center gap-2 min-w-0 flex-1">
+                                    <div className="w-7 h-7 rounded-lg bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center shrink-0">
+                                      <Play className="w-3.5 h-3.5 text-[#00ff41] fill-[#00ff41]" />
+                                    </div>
+                                    <div className="min-w-0">
+                                      <div className="font-bold text-xs sm:text-sm text-white truncate flex items-center gap-2">
+                                        <span>{currentVideo.title}</span>
+                                      </div>
+                                      <div className="flex items-center gap-2 mt-0.5">
+                                        {currentVideo.duration && (
+                                          <span className="text-[10px] font-mono px-2 py-0.2 rounded bg-zinc-900 border border-zinc-700 text-amber-300 font-semibold">
+                                            {currentVideo.duration}
+                                          </span>
+                                        )}
+                                        <span className="text-[10px] font-mono text-zinc-400 hidden xs:inline">
+                                          1080p 60fps &bull; High-Res Stream
+                                        </span>
+                                      </div>
+                                    </div>
                                   </div>
-                                  <div className="flex items-center gap-3">
+
+                                  {/* Quick Action Buttons: Drive View & Download */}
+                                  <div className="flex items-center gap-2 shrink-0">
                                     <a
                                       href={currentVideo.url}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      className="text-xs text-[#00b8ff] hover:text-sky-300 hover:underline flex items-center gap-1 font-mono"
-                                      title="Open in Google Drive"
+                                      className="px-3 py-1.5 rounded-lg bg-sky-500/15 hover:bg-sky-500/25 border border-sky-400/40 text-sky-200 hover:text-white text-xs font-mono font-medium flex items-center gap-1.5 transition-all shadow-[0_0_12px_rgba(0,184,255,0.2)]"
+                                      title="Open original video file in Google Drive"
                                     >
-                                      <ExternalLink className="w-3.5 h-3.5" />
+                                      <ExternalLink className="w-3.5 h-3.5 text-sky-400" />
                                       <span>Drive View</span>
                                     </a>
                                     <a
                                       href={currentVideo.downloadUrl || currentVideo.url}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      className="text-xs text-[#00ff41] hover:text-emerald-300 hover:underline flex items-center gap-1 font-mono"
-                                      title="Download video file"
+                                      className="px-3 py-1.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/50 text-emerald-300 hover:text-white text-xs font-mono font-bold flex items-center gap-1.5 transition-all shadow-[0_0_12px_rgba(0,255,65,0.25)]"
+                                      title="Download video file directly"
                                     >
-                                      <Download className="w-3.5 h-3.5" />
+                                      <Download className="w-3.5 h-3.5 text-emerald-400" />
                                       <span>Download</span>
                                     </a>
                                   </div>
                                 </div>
 
-                                <div className="relative aspect-video bg-zinc-950 rounded-lg overflow-hidden border border-zinc-900 shadow-inner">
+                                {/* Video Viewport with HUD Crosshairs */}
+                                <div className="relative aspect-video bg-zinc-950 rounded-xl overflow-hidden border border-zinc-800 shadow-[inset_0_0_30px_rgba(0,0,0,0.9),0_0_25px_rgba(0,184,255,0.1)] group">
+                                  {/* Technical Corner Crosshairs */}
+                                  <div className="absolute top-2 left-2 z-10 pointer-events-none text-[9px] font-mono text-sky-400/60 flex items-center gap-1">
+                                    <span>+</span>
+                                    <span className="hidden sm:inline">CAE-VIEWPORT // PART-0{currentVideo.part}</span>
+                                  </div>
+                                  <div className="absolute top-2 right-2 z-10 pointer-events-none text-[9px] font-mono text-sky-400/60">
+                                    <span>+</span>
+                                  </div>
+                                  <div className="absolute bottom-2 left-2 z-10 pointer-events-none text-[9px] font-mono text-sky-400/60">
+                                    <span>+</span>
+                                  </div>
+                                  <div className="absolute bottom-2 right-2 z-10 pointer-events-none text-[9px] font-mono text-sky-400/60 flex items-center gap-1">
+                                    <span className="hidden sm:inline">REC: 1080p</span>
+                                    <span>+</span>
+                                  </div>
+
                                   <iframe
                                     key={currentVideo.id}
                                     src={currentVideo.embedUrl || `https://drive.google.com/file/d/${currentVideo.driveId}/preview`}
                                     title={currentVideo.title}
-                                    className="w-full h-full border-0 rounded-lg bg-black"
+                                    className="w-full h-full border-0 rounded-xl bg-black"
                                     allow="autoplay; fullscreen; picture-in-picture"
                                     allowFullScreen
                                     loading="lazy"
                                   />
                                 </div>
 
-                                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pt-1 text-xs">
-                                  <p className="text-zinc-400 flex-1">
-                                    {currentVideo.description}
-                                  </p>
+                                {/* Video Metadata & Folder Source Link */}
+                                <div className="p-3 rounded-lg bg-zinc-900/80 border border-zinc-800 text-xs font-mono flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                                  <div className="flex items-start gap-2 flex-1">
+                                    <FileCode className="w-4 h-4 text-sky-400 shrink-0 mt-0.5" />
+                                    <p className="text-zinc-300 leading-relaxed">
+                                      <span className="font-bold text-white">Module Session: </span>
+                                      {currentVideo.description}
+                                    </p>
+                                  </div>
                                   <a
                                     href={GOOGLE_DRIVE_VIDEOS_FOLDER}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-1.5 text-xs font-mono text-zinc-400 hover:text-[#00ff41] transition-colors shrink-0"
+                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 hover:border-amber-400 text-amber-300 hover:text-amber-200 text-xs font-mono transition-all shrink-0 shadow-xs"
+                                    title="Open Google Drive repository folder"
                                   >
                                     <FolderOpen className="w-3.5 h-3.5 text-amber-400" />
                                     <span>Folder Source</span>
+                                    <ExternalLink className="w-3 h-3 ml-0.5 opacity-70" />
                                   </a>
                                 </div>
                               </div>
 
-                              <div className="dark:bg-[#0f0f0f]/90 bg-slate-50 border dark:border-zinc-800 border-slate-200 rounded-lg p-3 space-y-2.5 flex flex-col justify-between">
+                              {/* Right Interactive Playlist & Technical Specifications Rack */}
+                              <div className="dark:bg-[#090e15] bg-slate-50 border dark:border-zinc-800/90 border-slate-200 rounded-xl p-4 space-y-4 flex flex-col justify-between shadow-lg">
                                 <div>
-                                  <h5 className="font-section-title font-bold text-xs uppercase tracking-wider dark:text-[#00ff41] text-emerald-700 pb-2 border-b dark:border-zinc-800 border-slate-200 flex items-center justify-between">
-                                    <div className="flex items-center">
-                                      <span className="text-[#00b8ff] font-mono mr-1.5 select-none">//</span>
+                                  {/* Playlist Header */}
+                                  <div className="flex items-center justify-between pb-3 border-b dark:border-zinc-800 border-slate-200">
+                                    <h5 className="font-section-title font-bold text-xs uppercase tracking-wider dark:text-[#00ff41] text-emerald-700 flex items-center gap-1.5">
+                                      <Film className="w-3.5 h-3.5 text-sky-400" />
                                       <span>Video Playlist</span>
-                                    </div>
-                                    <span className="text-[10px] font-mono text-zinc-500 font-normal">2 Parts</span>
-                                  </h5>
+                                    </h5>
+                                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-900 border border-zinc-700 text-zinc-300 font-semibold">
+                                      2 Parts (492 MB)
+                                    </span>
+                                  </div>
 
-                                  <div className="space-y-2 mt-2.5">
+                                  {/* Playlist Items */}
+                                  <div className="space-y-2.5 mt-3">
                                     {ANTIPRISM_VIDEOS.map((video) => {
                                       const isSelected = currentVideo.id === video.id;
                                       return (
                                         <button
                                           key={video.id}
                                           onClick={() => setCurrentVideo(video)}
-                                          className={`w-full p-2.5 rounded text-left transition-all text-xs font-mono flex items-start gap-2.5 border-l-3 cursor-pointer ${
+                                          className={`w-full p-3 rounded-xl text-left transition-all text-xs font-mono flex items-start gap-3 border cursor-pointer ${
                                             isSelected
-                                              ? 'dark:bg-[#00ff41]/10 bg-emerald-100 dark:border-[#00ff41] border-emerald-600 dark:text-[#00ff41] text-emerald-900 font-bold shadow-xs'
-                                              : 'dark:bg-zinc-900/60 bg-white dark:border-zinc-700 border-slate-200 dark:text-zinc-300 text-slate-700 hover:border-sky-500 hover:bg-sky-50'
+                                              ? 'dark:bg-emerald-950/40 bg-emerald-50 dark:border-[#00ff41] border-emerald-500 dark:text-white text-emerald-950 font-bold shadow-[0_0_15px_rgba(0,255,65,0.18)] ring-1 ring-emerald-500/30'
+                                              : 'dark:bg-zinc-900/70 bg-white dark:border-zinc-800 border-slate-200 dark:text-zinc-300 text-slate-700 hover:border-sky-500/80 hover:bg-sky-50/50'
                                           }`}
                                         >
-                                          <span className="font-orbitron text-[11px] opacity-75 shrink-0">
+                                          {/* Geometric Part Number Badge */}
+                                          <div
+                                            className={`w-7 h-7 rounded-lg flex items-center justify-center font-orbitron text-xs shrink-0 font-bold ${
+                                              isSelected
+                                                ? 'bg-[#00ff41] text-black shadow-[0_0_10px_rgba(0,255,65,0.6)]'
+                                                : 'bg-zinc-800 text-zinc-400'
+                                            }`}
+                                          >
                                             0{video.part}
-                                          </span>
+                                          </div>
+
                                           <div className="flex-1 min-w-0">
-                                            <div className="truncate">{video.title}</div>
-                                            <div className="text-[10px] dark:text-zinc-400 text-slate-500 font-normal line-clamp-1 mt-0.5">
-                                              {video.duration || video.description}
+                                            <div className="flex items-center justify-between gap-1">
+                                              <span className="truncate font-semibold">{video.title}</span>
+                                              {isSelected && (
+                                                <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-emerald-500/20 text-[#00ff41] uppercase tracking-wider shrink-0 flex items-center gap-1">
+                                                  <span className="w-1.5 h-1.5 rounded-full bg-[#00ff41] animate-ping" />
+                                                  Streaming
+                                                </span>
+                                              )}
+                                            </div>
+                                            <div className="text-[11px] font-mono text-amber-500 dark:text-amber-400 mt-0.5">
+                                              {video.duration}
+                                            </div>
+                                            <div className="text-[10px] dark:text-zinc-400 text-slate-500 font-normal line-clamp-1 mt-1">
+                                              {video.description}
                                             </div>
                                           </div>
                                         </button>
@@ -923,23 +1109,54 @@ export const ResearchSection: React.FC<ResearchSectionProps> = ({ onNotify }) =>
                                   </div>
                                 </div>
 
-                                <div className="space-y-2 mt-3 pt-2 border-t dark:border-zinc-800/80 border-slate-200">
+                                {/* Bottom Controls & Technical Specs Console */}
+                                <div className="space-y-3 pt-3 border-t dark:border-zinc-800 border-slate-200">
+                                  {/* Browse Drive Folder Button */}
                                   <a
                                     href={GOOGLE_DRIVE_VIDEOS_FOLDER}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="w-full py-2 px-2.5 rounded bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-200 hover:text-white flex items-center justify-center gap-2 text-[11px] font-mono transition-colors"
+                                    className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-zinc-900 to-zinc-800 hover:from-zinc-800 hover:to-zinc-700 border border-zinc-700 hover:border-amber-400 text-zinc-100 flex items-center justify-between text-xs font-mono transition-all shadow-md group cursor-pointer"
                                   >
-                                    <FolderOpen className="w-3.5 h-3.5 text-amber-400" />
-                                    <span>Browse Drive Folder</span>
-                                    <ExternalLink className="w-3 h-3 text-zinc-400 ml-auto" />
+                                    <div className="flex items-center gap-2">
+                                      <FolderOpen className="w-4 h-4 text-amber-400 group-hover:scale-110 transition-transform" />
+                                      <span className="font-semibold">Browse Drive Folder</span>
+                                    </div>
+                                    <ChevronRight className="w-4 h-4 text-zinc-400 group-hover:translate-x-1 transition-transform" />
                                   </a>
 
-                                  <div className="p-2.5 dark:bg-black/60 bg-white border dark:border-zinc-800/80 border-slate-200 rounded text-[11px] dark:text-zinc-400 text-slate-600 space-y-1 shadow-xs">
-                                    <div className="dark:text-zinc-200 text-slate-900 font-bold">Simulation Notes:</div>
-                                    <div>• Explicit dynamic analysis via Abaqus 2024</div>
-                                    <div>• Automated python scripting for unit cell parametrization</div>
-                                    <div className="text-[10px] text-[#00ff41] pt-0.5 font-mono">✓ High-res streaming enabled</div>
+                                  {/* Simulation Notes & Hardware Specifications Rack */}
+                                  <div className="p-3.5 dark:bg-black/70 bg-white border dark:border-zinc-800/90 border-slate-200 rounded-xl text-xs font-mono space-y-2 shadow-inner">
+                                    <div className="flex items-center justify-between text-[11px] font-bold dark:text-zinc-200 text-slate-800 uppercase tracking-wider pb-1.5 border-b dark:border-zinc-800/80 border-slate-200">
+                                      <span className="flex items-center gap-1.5 text-sky-400">
+                                        <Terminal className="w-3.5 h-3.5" />
+                                        Simulation Notes
+                                      </span>
+                                      <span className="text-[10px] font-normal text-zinc-500">Abaqus/CAE</span>
+                                    </div>
+
+                                    <div className="space-y-1.5 text-[11px] dark:text-zinc-400 text-slate-600">
+                                      <div className="flex items-start gap-1.5">
+                                        <span className="text-sky-400">&bull;</span>
+                                        <span>Explicit dynamic analysis via Abaqus 2024</span>
+                                      </div>
+                                      <div className="flex items-start gap-1.5">
+                                        <span className="text-[#00ff41]">&bull;</span>
+                                        <span>Automated python scripting for unit cell parametrization</span>
+                                      </div>
+                                      <div className="flex items-start gap-1.5">
+                                        <span className="text-amber-400">&bull;</span>
+                                        <span>General contact penalty &amp; plastic dissipation balance</span>
+                                      </div>
+                                    </div>
+
+                                    <div className="mt-2.5 pt-2 border-t dark:border-zinc-800 border-slate-200 flex items-center justify-between text-[11px]">
+                                      <span className="text-[#00ff41] flex items-center gap-1.5 font-bold">
+                                        <CheckCircle2 className="w-3.5 h-3.5 text-[#00ff41]" />
+                                        High-res streaming enabled
+                                      </span>
+                                      <span className="text-[10px] text-zinc-400 font-mono">1080p Verified</span>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -947,14 +1164,27 @@ export const ResearchSection: React.FC<ResearchSectionProps> = ({ onNotify }) =>
                           </div>
                         )}
 
+                        {/* Module IV Specific Content */}
                         {item.id === 'mod-4' && (
-                          <div className="p-3 dark:bg-black/40 bg-white border dark:border-zinc-800 border-slate-200 rounded shadow-xs">
-                            <div className="text-xs font-bold dark:text-[#00b8ff] text-sky-700 uppercase mb-1">
-                              Crack Bridging &amp; Cohesive Laws
+                          <div className="p-4 dark:bg-black/50 bg-slate-50 border dark:border-zinc-800 border-slate-200 rounded-xl space-y-2 shadow-sm">
+                            <div className="flex items-center justify-between">
+                              <span className="text-xs font-bold dark:text-[#00b8ff] text-sky-700 uppercase tracking-wider">
+                                Crack Bridging &amp; Cohesive Softening Laws
+                              </span>
+                              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-900 border border-zinc-700 text-zinc-300">
+                                DIC Synchronized
+                              </span>
                             </div>
                             <p className="text-xs dark:text-zinc-400 text-slate-600">
-                              Experimental Digital Image Correlation (DIC) synchronized with bilinear softening traction-separation laws to capture progressive fiber pull-out and tortuous matrix microcracking.
+                              Experimental Digital Image Correlation (DIC) synchronized with bilinear softening traction-separation laws to capture progressive fiber pull-out, crack tortuosity, and cementitious matrix microcracking.
                             </p>
+                            <div className="flex flex-wrap gap-2 pt-1 text-[11px] font-mono">
+                              <span className="text-sky-400">&bull; Bilinear Traction-Separation (T<sub>n</sub>, T<sub>s</sub>)</span>
+                              <span className="text-zinc-500">|</span>
+                              <span className="text-emerald-400">&bull; Full-Field Strain Gradients</span>
+                              <span className="text-zinc-500">|</span>
+                              <span className="text-amber-400">&bull; Fiber Reinforcement Energy Dissipation</span>
+                            </div>
                           </div>
                         )}
                       </div>
@@ -967,63 +1197,301 @@ export const ResearchSection: React.FC<ResearchSectionProps> = ({ onNotify }) =>
 
           {/* Primary Research Focus Cards */}
           {focusAreas.length > 0 && (
-            <div className={modules.length > 0 ? "pt-8 border-t dark:border-zinc-800 border-slate-200" : ""}>
-              <div className="flex items-center justify-between pb-6">
-                <h3 className="font-section-title text-xl sm:text-2xl font-bold uppercase tracking-wider dark:text-white text-slate-900 flex items-center">
-                  <span className="dark:text-[#00ff41] text-emerald-600 font-mono mr-2 select-none">//</span>
-                  <span>Primary Research Focus Areas</span>
-                </h3>
-                <span className="text-xs font-mono dark:text-zinc-400 text-slate-500 hidden sm:inline">
-                  {focusAreas.length} {focusAreas.length === 1 ? 'focus area' : 'focus areas'}
-                </span>
+            <div className={modules.length > 0 ? "pt-10 border-t dark:border-zinc-800/80 border-slate-200" : ""}>
+              {/* Strategic Research Thrusts Header Banner */}
+              <div className="rounded-2xl p-5 sm:p-6 mb-6 border transition-all duration-300 dark:bg-gradient-to-r dark:from-[#060c14] dark:via-[#091624] dark:to-[#060c14] bg-gradient-to-r from-slate-50 via-sky-50/60 to-slate-50 dark:border-sky-500/30 border-sky-200 shadow-lg">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b dark:border-zinc-800/80 border-slate-200">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                      <span className="text-[10px] font-mono font-bold tracking-widest uppercase px-2.5 py-0.5 rounded-full bg-sky-500/15 border border-sky-500/40 text-sky-600 dark:text-[#00b8ff] shadow-[0_0_10px_rgba(0,184,255,0.2)]">
+                        STRATEGIC LAB PILLARS // CONTINUUM &amp; COMPUTATIONAL MECHANICS
+                      </span>
+                      <span className="text-xs font-mono font-semibold dark:text-zinc-400 text-slate-500 flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                        {focusAreas.length} Core Focus Thrusts
+                      </span>
+                    </div>
+                    <h3 className="font-section-title text-xl sm:text-2xl font-bold uppercase tracking-wide dark:text-white text-slate-900 flex items-center gap-2">
+                      <span className="text-sky-500 dark:text-[#00b8ff] font-mono select-none">//</span>
+                      <span>Primary Research Focus Areas</span>
+                    </h3>
+                  </div>
+                  <span className="text-xs font-mono dark:text-zinc-400 text-slate-500">
+                    Aero-Structures &bull; Metamaterials &bull; FEA Solvers
+                  </span>
+                </div>
+                <p className="pt-3 text-xs sm:text-sm font-mono dark:text-zinc-300 text-slate-700 leading-relaxed max-w-4xl">
+                  Targeted experimental and numerical investigations spanning lightweight aerospace sandwich structures, biomimetic impact-resistant armor architectures, and high-performance constitutive FEA user subroutines.
+                </p>
               </div>
 
+              {/* 3 Focus Area Cards Grid with Visual Schematics & Telemetry */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {focusAreas.map((area) => {
+                {focusAreas.map((area, idx) => {
                   const isCopied = copiedId === area.id;
+
+                  // High-tech domain configuration with technical schematics & benchmarks
+                  const domainConfig = [
+                    {
+                      thrustId: 'THRUST // 01',
+                      sub: 'AEROSPACE CRASHWORTHINESS',
+                      color: 'text-sky-400',
+                      borderHover: 'hover:border-sky-400 dark:hover:border-sky-400/90',
+                      glow: 'dark:hover:shadow-[0_12px_35px_rgba(0,184,255,0.25)]',
+                      accentBar: 'bg-gradient-to-r from-sky-500 via-sky-400 to-transparent',
+                      accentGlow: 'bg-sky-500/10 border-sky-400/30 text-sky-400',
+                      badge: 'CRASHWORTHINESS',
+                      kpis: [
+                        { label: 'Core Topology', val: 'Honeycomb & Auxetic' },
+                        { label: 'Energy Abs.', val: '+42% SEA Gain' },
+                        { label: 'Load Regime', val: 'Uniform Compressive' },
+                      ],
+                      renderSchematic: () => (
+                        <div className="relative w-full h-28 rounded-xl overflow-hidden bg-[#040810] border border-sky-500/30 p-2 flex flex-col justify-between shadow-inner group-hover:border-sky-400/60 transition-colors">
+                          <div className="flex items-center justify-between text-[9px] font-mono text-sky-400/80 px-1">
+                            <span className="flex items-center gap-1">
+                              <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
+                              SANDWICH CORE SCHEMATIC
+                            </span>
+                            <span className="font-bold text-sky-300">F_z ↓ 100 kN</span>
+                          </div>
+                          {/* Stylized Sandwich Panel SVG */}
+                          <svg className="w-full h-16" viewBox="0 0 280 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            {/* Compressive Load Vector Arrows */}
+                            <path d="M70 4 L70 12 M70 12 L67 9 M70 12 L73 9" stroke="#38bdf8" strokeWidth="1.5" />
+                            <path d="M140 4 L140 12 M140 12 L137 9 M140 12 L143 9" stroke="#38bdf8" strokeWidth="1.5" />
+                            <path d="M210 4 L210 12 M210 12 L207 9 M210 12 L213 9" stroke="#38bdf8" strokeWidth="1.5" />
+                            {/* Top Face Sheet */}
+                            <rect x="20" y="13" width="240" height="5" rx="1.5" fill="#0284c7" fillOpacity="0.8" stroke="#38bdf8" strokeWidth="1" />
+                            {/* Honeycomb Core Cells */}
+                            <path d="M30 18 L40 26 L40 38 L30 46 L20 38 L20 26 Z" stroke="#38bdf8" strokeWidth="1.2" strokeOpacity="0.85" fill="#0369a1" fillOpacity="0.25" />
+                            <path d="M50 18 L60 26 L60 38 L50 46 L40 38 L40 26 Z" stroke="#38bdf8" strokeWidth="1.2" strokeOpacity="0.85" fill="#0369a1" fillOpacity="0.25" />
+                            <path d="M70 18 L80 26 L80 38 L70 46 L60 38 L60 26 Z" stroke="#38bdf8" strokeWidth="1.2" strokeOpacity="0.85" fill="#0369a1" fillOpacity="0.25" />
+                            <path d="M90 18 L100 26 L100 38 L90 46 L80 38 L80 26 Z" stroke="#38bdf8" strokeWidth="1.2" strokeOpacity="0.85" fill="#0369a1" fillOpacity="0.25" />
+                            <path d="M110 18 L120 26 L120 38 L110 46 L100 38 L100 26 Z" stroke="#38bdf8" strokeWidth="1.2" strokeOpacity="0.85" fill="#0369a1" fillOpacity="0.25" />
+                            <path d="M130 18 L140 26 L140 38 L130 46 L120 38 L120 26 Z" stroke="#38bdf8" strokeWidth="1.2" strokeOpacity="0.85" fill="#0369a1" fillOpacity="0.25" />
+                            <path d="M150 18 L160 26 L160 38 L150 46 L140 38 L140 26 Z" stroke="#38bdf8" strokeWidth="1.2" strokeOpacity="0.85" fill="#0369a1" fillOpacity="0.25" />
+                            <path d="M170 18 L180 26 L180 38 L170 46 L160 38 L160 26 Z" stroke="#38bdf8" strokeWidth="1.2" strokeOpacity="0.85" fill="#0369a1" fillOpacity="0.25" />
+                            <path d="M190 18 L200 26 L200 38 L190 46 L180 38 L180 26 Z" stroke="#38bdf8" strokeWidth="1.2" strokeOpacity="0.85" fill="#0369a1" fillOpacity="0.25" />
+                            <path d="M210 18 L220 26 L220 38 L210 46 L200 38 L200 26 Z" stroke="#38bdf8" strokeWidth="1.2" strokeOpacity="0.85" fill="#0369a1" fillOpacity="0.25" />
+                            <path d="M230 18 L240 26 L240 38 L230 46 L220 38 L220 26 Z" stroke="#38bdf8" strokeWidth="1.2" strokeOpacity="0.85" fill="#0369a1" fillOpacity="0.25" />
+                            <path d="M250 18 L260 26 L260 38 L250 46 L240 38 L240 26 Z" stroke="#38bdf8" strokeWidth="1.2" strokeOpacity="0.85" fill="#0369a1" fillOpacity="0.25" />
+                            {/* Bottom Face Sheet */}
+                            <rect x="20" y="47" width="240" height="5" rx="1.5" fill="#0284c7" fillOpacity="0.8" stroke="#38bdf8" strokeWidth="1" />
+                            {/* Reaction Pins */}
+                            <path d="M40 54 L36 60 L44 60 Z" fill="#38bdf8" opacity="0.7" />
+                            <path d="M140 54 L136 60 L144 60 Z" fill="#38bdf8" opacity="0.7" />
+                            <path d="M240 54 L236 60 L240 60 Z" fill="#38bdf8" opacity="0.7" />
+                          </svg>
+                          <div className="flex items-center justify-between text-[8px] font-mono text-zinc-400 px-1 border-t border-sky-500/20 pt-1">
+                            <span>FACE: CFRP 1.2mm</span>
+                            <span className="text-sky-300">CORE: Al-5052 Hex-Core</span>
+                            <span>SEA: 5.2 kJ/kg</span>
+                          </div>
+                        </div>
+                      ),
+                    },
+                    {
+                      thrustId: 'THRUST // 02',
+                      sub: 'BIOMIMETIC ARMOR & IMPACT',
+                      color: 'text-emerald-400 dark:text-[#00ff41]',
+                      borderHover: 'hover:border-emerald-500 dark:hover:border-[#00ff41]/90',
+                      glow: 'dark:hover:shadow-[0_12px_35px_rgba(0,255,65,0.25)]',
+                      accentBar: 'bg-gradient-to-r from-[#00ff41] via-emerald-400 to-transparent',
+                      accentGlow: 'bg-emerald-500/10 border-emerald-400/30 text-emerald-400',
+                      badge: 'BIOMECHANICS',
+                      kpis: [
+                        { label: 'Bio Archetype', val: 'Stomatopod Dactyl Club' },
+                        { label: 'Pitch Angles', val: '15° / 30° / 45° Helicoid' },
+                        { label: 'Toughness', val: '3.8x Crack Extension' },
+                      ],
+                      renderSchematic: () => (
+                        <div className="relative w-full h-28 rounded-xl overflow-hidden bg-[#041008] border border-emerald-500/30 p-2 flex flex-col justify-between shadow-inner group-hover:border-emerald-400/60 transition-colors">
+                          <div className="flex items-center justify-between text-[9px] font-mono text-emerald-400/90 px-1">
+                            <span className="flex items-center gap-1">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#00ff41] animate-pulse" />
+                              BOULIGAND HELICOIDAL ARCHITECTURE
+                            </span>
+                            <span className="font-bold text-[#00ff41]">&theta; = 15&deg; Pitch</span>
+                          </div>
+                          {/* Stylized Helicoidal Bouligand SVG */}
+                          <svg className="w-full h-16" viewBox="0 0 280 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            {/* Layer 0: 0 deg */}
+                            <rect x="25" y="8" width="230" height="7" rx="1.5" fill="#047857" fillOpacity="0.4" stroke="#10b981" strokeWidth="1" />
+                            <line x1="30" y1="11.5" x2="250" y2="11.5" stroke="#34d399" strokeWidth="1" strokeDasharray="4 3" />
+                            {/* Layer 1: 15 deg */}
+                            <rect x="25" y="18" width="230" height="7" rx="1.5" fill="#059669" fillOpacity="0.5" stroke="#00ff41" strokeWidth="1" />
+                            <line x1="30" y1="23" x2="250" y2="20" stroke="#00ff41" strokeWidth="1.2" strokeDasharray="6 3" />
+                            {/* Layer 2: 30 deg */}
+                            <rect x="25" y="28" width="230" height="7" rx="1.5" fill="#10b981" fillOpacity="0.5" stroke="#34d399" strokeWidth="1" />
+                            <line x1="30" y1="34" x2="250" y2="28" stroke="#6ee7b7" strokeWidth="1.2" strokeDasharray="6 3" />
+                            {/* Layer 3: 45 deg */}
+                            <rect x="25" y="38" width="230" height="7" rx="1.5" fill="#047857" fillOpacity="0.6" stroke="#10b981" strokeWidth="1" />
+                            <line x1="30" y1="46" x2="250" y2="37" stroke="#a7f3d0" strokeWidth="1.2" strokeDasharray="6 3" />
+                            {/* Tortuous Crack Path Twisting Vector */}
+                            <path d="M45 4 L48 11 L43 21 L53 32 L46 42 L58 48" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                            <circle cx="58" cy="48" r="2.5" fill="#ef4444" />
+                            {/* Crack deflection indicator */}
+                            <path d="M54 30 L66 26 M66 26 L63 24 M66 26 L64 29" stroke="#f59e0b" strokeWidth="1.5" />
+                            <text x="70" y="28" fill="#f59e0b" fontSize="8" fontFamily="monospace" fontWeight="bold">Crack Twisting</text>
+                          </svg>
+                          <div className="flex items-center justify-between text-[8px] font-mono text-zinc-400 px-1 border-t border-emerald-500/20 pt-1">
+                            <span>FIBER: Carbon-Chitin</span>
+                            <span className="text-[#00ff41]">INTERFACIAL DELAMINATION DISSIPATION</span>
+                            <span>&Delta;K: +64%</span>
+                          </div>
+                        </div>
+                      ),
+                    },
+                    {
+                      thrustId: 'THRUST // 03',
+                      sub: 'NUMERICAL SOLVERS & SUBROUTINES',
+                      color: 'text-amber-400',
+                      borderHover: 'hover:border-amber-500 dark:hover:border-amber-400/90',
+                      glow: 'dark:hover:shadow-[0_12px_35px_rgba(255,193,7,0.25)]',
+                      accentBar: 'bg-gradient-to-r from-amber-400 via-orange-400 to-transparent',
+                      accentGlow: 'bg-amber-500/10 border-amber-400/30 text-amber-400',
+                      badge: 'FEA & SOLVERS',
+                      kpis: [
+                        { label: 'Subroutines', val: 'Fortran 90 VUMAT/UMAT' },
+                        { label: 'Strain Rates', val: 'd&epsilon;/dt &gt; 10&sup3; s&macr;&sup1;' },
+                        { label: 'Accelerators', val: 'Python CAE & MATLAB' },
+                      ],
+                      renderSchematic: () => (
+                        <div className="relative w-full h-28 rounded-xl overflow-hidden bg-[#100b04] border border-amber-500/30 p-2 flex flex-col justify-between shadow-inner group-hover:border-amber-400/60 transition-colors">
+                          <div className="flex items-center justify-between text-[9px] font-mono text-amber-400/90 px-1">
+                            <span className="flex items-center gap-1">
+                              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                              EXPLICIT FEA MESH &amp; STRESS TENSOR
+                            </span>
+                            <span className="font-bold text-amber-300">VUMAT &bull; Ogden Visco</span>
+                          </div>
+                          {/* Stylized FEA Contour Mesh SVG */}
+                          <svg className="w-full h-16" viewBox="0 0 280 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            {/* Element Mesh Quadrilaterals with Rainbow Von Mises Contour */}
+                            <polygon points="20,10 65,12 60,34 18,32" fill="#0284c7" stroke="#38bdf8" strokeWidth="0.8" />
+                            <polygon points="65,12 110,14 105,36 60,34" fill="#059669" stroke="#34d399" strokeWidth="0.8" />
+                            <polygon points="110,14 155,15 150,38 105,36" fill="#eab308" stroke="#fef08a" strokeWidth="0.8" />
+                            <polygon points="155,15 200,16 195,40 150,38" fill="#f97316" stroke="#fdba74" strokeWidth="0.8" />
+                            <polygon points="200,16 245,17 240,42 195,40" fill="#ef4444" stroke="#fca5a5" strokeWidth="0.8" />
+
+                            <polygon points="18,32 60,34 55,54 15,52" fill="#0369a1" stroke="#38bdf8" strokeWidth="0.8" />
+                            <polygon points="60,34 105,36 100,56 55,54" fill="#047857" stroke="#34d399" strokeWidth="0.8" />
+                            <polygon points="105,36 150,38 145,58 100,56" fill="#ca8a04" stroke="#fef08a" strokeWidth="0.8" />
+                            <polygon points="150,38 195,40 190,60 145,58" fill="#ea580c" stroke="#fdba74" strokeWidth="0.8" />
+                            <polygon points="195,40 240,42 235,62 190,60" fill="#dc2626" stroke="#fca5a5" strokeWidth="0.8" />
+
+                            {/* Gauss Integration Points */}
+                            <circle cx="39" cy="22" r="1.5" fill="#ffffff" />
+                            <circle cx="85" cy="24" r="1.5" fill="#ffffff" />
+                            <circle cx="130" cy="26" r="1.5" fill="#ffffff" />
+                            <circle cx="175" cy="28" r="1.5" fill="#ffffff" />
+                            <circle cx="220" cy="29" r="1.5" fill="#ffffff" />
+
+                            {/* Constitutive Tensor Annotation */}
+                            <rect x="180" y="8" width="90" height="15" rx="3" fill="#000000" fillOpacity="0.8" stroke="#f59e0b" strokeWidth="1" />
+                            <text x="185" y="19" fill="#fbbf24" fontSize="8" fontFamily="monospace" fontWeight="bold">&sigma;_(n+1) = VUMAT(&Delta;&epsilon;)</text>
+                          </svg>
+                          <div className="flex items-center justify-between text-[8px] font-mono text-zinc-400 px-1 border-t border-amber-500/20 pt-1">
+                            <span>SOLVER: Abaqus 2024</span>
+                            <span className="text-amber-300">C3D8R 8-Node Solid Elements</span>
+                            <span>CPU/GPU Parallel</span>
+                          </div>
+                        </div>
+                      ),
+                    },
+                  ][idx % 3];
 
                   return (
                     <div
                       key={area.id}
                       id={area.id}
-                      className="dark:bg-gradient-to-br dark:from-[#121b24] dark:to-[#0d1218] bg-white border dark:border-[#26333d] border-slate-200 dark:hover:border-[#00b8ff] hover:border-sky-500 rounded-xl p-5 dark:shadow-[0_10px_25px_rgba(0,0,0,0.5)] shadow-md transition-all duration-300 hover:-translate-y-1 space-y-4 flex flex-col justify-between"
+                      className={`relative overflow-hidden dark:bg-gradient-to-b dark:from-[#090f19] dark:via-[#070b13] dark:to-[#04060b] bg-white border dark:border-zinc-800 border-slate-200 rounded-2xl p-5 sm:p-6 shadow-md transition-all duration-300 hover:-translate-y-1.5 space-y-4 flex flex-col justify-between group ${domainConfig.borderHover} ${domainConfig.glow}`}
                     >
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-between">
-                          <div className="p-2 rounded dark:bg-black/50 bg-sky-50 border dark:border-zinc-800 border-sky-100">
-                            {area.title.includes('Sandwich') && <Layers className="w-5 h-5 dark:text-[#00b8ff] text-sky-600" />}
-                            {area.title.includes('Bio-inspired') && <Activity className="w-5 h-5 dark:text-[#00ff41] text-emerald-600" />}
-                            {area.title.includes('Computational') && <Cpu className="w-5 h-5 dark:text-[#36c7ff] text-sky-600" />}
-                          </div>
+                      {/* Top Accent Gradient Line */}
+                      <div className={`absolute top-0 left-0 right-0 h-[2px] ${domainConfig.accentBar} opacity-80 group-hover:opacity-100 transition-opacity`} />
 
-                          {/* Tags */}
-                          <div className="flex items-center gap-1 flex-wrap justify-end">
-                            {area.tags.map((t) => (
-                              <button
-                                key={t}
-                                onClick={() => setSelectedTag(t)}
-                                className={`text-[9px] font-mono px-2 py-0.5 rounded-full border cursor-pointer transition-colors ${
-                                  selectedTag === t
-                                    ? 'dark:bg-[#00ff41]/20 dark:border-[#00ff41] border-emerald-600 dark:text-[#00ff41] text-emerald-800 font-bold'
-                                    : 'dark:bg-black/40 bg-slate-100 dark:border-zinc-800 border-slate-200 dark:text-zinc-400 text-slate-600 hover:border-sky-500'
-                                }`}
-                              >
-                                #{t}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-
-                        <h4 className="font-orbitron font-bold text-sm sm:text-base dark:text-white text-slate-900">
-                          <HighlightText text={area.title} query={searchQuery} />
-                        </h4>
-
-                        <p className="text-xs sm:text-sm dark:text-zinc-300 text-slate-600 font-mono leading-relaxed">
-                          <HighlightText text={area.desc} query={searchQuery} />
-                        </p>
+                      {/* HUD Corner Tech Brackets */}
+                      <div className="absolute top-2 left-2 text-[9px] font-mono text-zinc-600 dark:text-zinc-600 group-hover:text-sky-400 select-none transition-colors">
+                        [+
+                      </div>
+                      <div className="absolute top-2 right-2 text-[9px] font-mono text-zinc-600 dark:text-zinc-600 group-hover:text-sky-400 select-none transition-colors">
+                        +]
                       </div>
 
-                      <div className="pt-3 border-t dark:border-zinc-800/80 border-slate-100 flex items-center justify-between gap-3 mt-auto">
+                      <div className="space-y-4">
+                        {/* Thrust Identifier & Domain Header */}
+                        <div className="flex items-center justify-between gap-2 pt-1">
+                          <div className="flex items-center gap-2.5">
+                            <div className="p-2.5 rounded-xl dark:bg-black/60 bg-sky-50/80 border dark:border-zinc-800 border-sky-100 shadow-inner group-hover:scale-105 transition-transform">
+                              {area.title.includes('Sandwich') && <Layers className="w-5 h-5 text-sky-500 dark:text-[#00b8ff]" />}
+                              {area.title.includes('Bio-inspired') && <Activity className="w-5 h-5 text-emerald-500 dark:text-[#00ff41]" />}
+                              {area.title.includes('Computational') && <Cpu className="w-5 h-5 text-amber-500 dark:text-amber-400" />}
+                            </div>
+                            <div>
+                              <div className="text-[10px] font-mono font-bold tracking-widest text-zinc-400 uppercase">
+                                {domainConfig.thrustId}
+                              </div>
+                              <span className={`text-[11px] font-mono font-bold tracking-wider uppercase ${domainConfig.color}`}>
+                                {domainConfig.sub}
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* Quick Category Badge */}
+                          <span className={`text-[9px] font-mono px-2 py-0.5 rounded border uppercase tracking-wider font-bold ${domainConfig.accentGlow}`}>
+                            {domainConfig.badge}
+                          </span>
+                        </div>
+
+                        {/* Interactive Laboratory Schematic Visualizer */}
+                        {domainConfig.renderSchematic()}
+
+                        {/* Focus Area Title */}
+                        <div>
+                          <h4 className="font-orbitron font-bold text-base sm:text-lg dark:text-white text-slate-900 group-hover:text-sky-600 dark:group-hover:text-white transition-colors">
+                            <HighlightText text={area.title} query={searchQuery} />
+                          </h4>
+
+                          <p className="text-xs sm:text-sm dark:text-zinc-300 text-slate-600 font-mono leading-relaxed mt-2">
+                            <HighlightText text={area.desc} query={searchQuery} />
+                          </p>
+                        </div>
+
+                        {/* Quantitative Benchmark KPI Matrix */}
+                        <div className="grid grid-cols-3 gap-2 pt-1 border-t dark:border-zinc-800/80 border-slate-100">
+                          {domainConfig.kpis.map((kpi, kIdx) => (
+                            <div key={kIdx} className="p-2 rounded-lg dark:bg-black/50 bg-slate-50 border dark:border-zinc-800/80 border-slate-200 text-center">
+                              <span className="block text-[9px] font-mono uppercase text-zinc-400 tracking-wider">
+                                {kpi.label}
+                              </span>
+                              <span className="block text-[11px] font-mono font-bold dark:text-white text-slate-800 truncate mt-0.5">
+                                <span dangerouslySetInnerHTML={{ __html: kpi.val }} />
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Tags List */}
+                        <div className="flex items-center gap-1.5 flex-wrap pt-1">
+                          {area.tags.map((t) => (
+                            <button
+                              key={t}
+                              onClick={() => setSelectedTag(t)}
+                              className={`text-[10px] font-mono px-2 py-0.5 rounded-md border cursor-pointer transition-colors ${
+                                selectedTag === t
+                                  ? 'dark:bg-[#00ff41]/20 dark:border-[#00ff41] border-emerald-600 dark:text-[#00ff41] text-emerald-800 font-bold'
+                                  : 'dark:bg-black/40 bg-slate-100 dark:border-zinc-800 border-slate-200 dark:text-zinc-400 text-slate-600 hover:border-sky-500'
+                              }`}
+                            >
+                              #{t}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Footer Highlight & Share Button */}
+                      <div className="pt-3.5 border-t dark:border-zinc-800/80 border-slate-100 flex items-center justify-between gap-3 mt-auto">
                         {area.highlight ? (
                           <div className="flex items-center gap-1.5 text-[11px] dark:text-[#00ff41] text-emerald-700 font-semibold line-clamp-1 flex-1">
                             <CheckCircle2 className="w-3.5 h-3.5 flex-none" />
@@ -1035,16 +1503,16 @@ export const ResearchSection: React.FC<ResearchSectionProps> = ({ onNotify }) =>
                           <div className="flex-1" />
                         )}
 
-                        {/* Share Button for Focus Area Card */}
+                        {/* Share Button */}
                         <button
                           type="button"
                           onClick={(e) => handleShare(area, e)}
                           title={`Copy project link for ${area.title}`}
                           aria-label={`Share ${area.title}`}
-                          className={`px-2.5 py-1.5 rounded-md text-xs font-mono flex items-center gap-1.5 transition-all duration-200 cursor-pointer flex-none ${
+                          className={`px-3 py-1.5 rounded-lg text-xs font-mono flex items-center gap-1.5 transition-all duration-200 cursor-pointer flex-none ${
                             isCopied
                               ? 'dark:bg-[#00ff41]/20 bg-emerald-100 dark:text-[#00ff41] text-emerald-800 border dark:border-[#00ff41] border-emerald-500 font-bold shadow-xs'
-                              : 'dark:bg-black/40 bg-slate-100 dark:hover:bg-zinc-800 hover:bg-slate-200 dark:text-zinc-300 text-slate-700 dark:border-zinc-700 border-slate-300 hover:border-sky-500 dark:hover:text-[#00b8ff] hover:text-sky-700 border'
+                              : 'dark:bg-black/50 bg-slate-100 dark:hover:bg-zinc-800 hover:bg-slate-200 dark:text-zinc-300 text-slate-700 dark:border-zinc-700 border-slate-300 hover:border-sky-500 dark:hover:text-[#00b8ff] hover:text-sky-700 border'
                           }`}
                         >
                           {isCopied ? (
