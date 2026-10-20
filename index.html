@@ -8,10 +8,16 @@
   <meta name="robots" content="index, follow" />
 
   <script>
-    if ('scrollRestoration' in history) {
-      history.scrollRestoration = 'manual';
+    try {
+      if (typeof window !== 'undefined' && 'history' in window && 'scrollRestoration' in window.history) {
+        window.history.scrollRestoration = 'manual';
+      }
+      if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
+        window.scrollTo(0, 0);
+      }
+    } catch (e) {
+      // Ignore iframe security sandbox restrictions
     }
-    window.scrollTo(0, 0);
   </script>
 
   <title>SWID-SHRK — Mechanical &amp; Aerospace Research Lab</title>

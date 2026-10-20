@@ -24,26 +24,34 @@ export const App: React.FC = () => {
 
   // Guarantee that the website always opens from the very top on initial load
   React.useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if ('scrollRestoration' in window.history) {
-        window.history.scrollRestoration = 'manual';
+    try {
+      if (typeof window !== 'undefined') {
+        if ('history' in window && 'scrollRestoration' in window.history) {
+          window.history.scrollRestoration = 'manual';
+        }
+        const resetScroll = () => {
+          try {
+            window.scrollTo(0, 0);
+            if (document.documentElement) document.documentElement.scrollTop = 0;
+            if (document.body) document.body.scrollTop = 0;
+          } catch {
+            // Ignore scroll restrictions
+          }
+        };
+
+        resetScroll();
+        const t1 = setTimeout(resetScroll, 30);
+        const t2 = setTimeout(resetScroll, 120);
+        const t3 = setTimeout(resetScroll, 300);
+
+        return () => {
+          clearTimeout(t1);
+          clearTimeout(t2);
+          clearTimeout(t3);
+        };
       }
-      const resetScroll = () => {
-        window.scrollTo(0, 0);
-        if (document.documentElement) document.documentElement.scrollTop = 0;
-        if (document.body) document.body.scrollTop = 0;
-      };
-
-      resetScroll();
-      const t1 = setTimeout(resetScroll, 30);
-      const t2 = setTimeout(resetScroll, 120);
-      const t3 = setTimeout(resetScroll, 300);
-
-      return () => {
-        clearTimeout(t1);
-        clearTimeout(t2);
-        clearTimeout(t3);
-      };
+    } catch {
+      // Ignore sandbox/iframe restrictions
     }
   }, []);
 
