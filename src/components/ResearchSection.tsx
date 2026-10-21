@@ -1,7 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { ANTIPRISM_VIDEOS, GOOGLE_DRIVE_VIDEOS_FOLDER } from '../data/initialData';
-import { ResearchMilestoneTimeline } from './ResearchMilestoneTimeline';
-import { GitHubStatsWidget } from './GitHubStatsWidget';
 import {
   ChevronDown,
   Play,
@@ -1536,12 +1534,6 @@ export const ResearchSection: React.FC<ResearchSectionProps> = ({ onNotify }) =>
           )}
         </>
       )}
-
-      {/* Visual Timeline Component: Key Project Developmental Milestones */}
-      <ResearchMilestoneTimeline />
-
-      {/* GitHub Statistics & Open-Source Repositories Activity Widget */}
-      <GitHubStatsWidget onNotify={onNotify} />
 
       {/* Standalone / Fallback Toast Notification */}
       {toastNotification && (

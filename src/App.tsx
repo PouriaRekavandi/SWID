@@ -12,7 +12,6 @@ import { EquipmentSection } from './components/EquipmentSection';
 import { ContactSection } from './components/ContactSection';
 import { AIChatSection } from './components/AIChatSection';
 import { AbaqusGallery } from './components/AbaqusGallery';
-import { LabUpdatesFeed } from './components/LabUpdatesFeed';
 import { Footer } from './components/Footer';
 import { CosmicBackground } from './components/CosmicBackground';
 import { ReadingProgressBar } from './components/ReadingProgressBar';
@@ -100,20 +99,6 @@ export const App: React.FC = () => {
               {/* Principal Researcher Card */}
               <ProfileSection />
 
-              {/* Lab Updates Feed Highlight on Home */}
-              <div className="pt-8 border-t dark:border-zinc-800 border-slate-200">
-                <LabUpdatesFeed onNotify={showToast} maxInitialCount={3} />
-                <div className="mt-6 text-center">
-                  <button
-                    onClick={() => handleSelectTab('updates')}
-                    className="inline-flex items-center gap-2 px-4 py-2 text-xs font-mono font-bold uppercase tracking-wider rounded-md border dark:border-zinc-700 border-slate-300 dark:bg-zinc-900 bg-white dark:hover:border-[#00ff41] hover:border-emerald-600 dark:hover:text-[#00ff41] hover:text-emerald-700 transition-colors shadow-sm cursor-pointer"
-                  >
-                    <span>View All Lab Updates &amp; Milestones Archive</span>
-                    <span aria-hidden="true">→</span>
-                  </button>
-                </div>
-              </div>
-
               {/* Research Preview with Accordions and Video Player */}
               <ResearchSection onNotify={showToast} />
 
@@ -130,12 +115,6 @@ export const App: React.FC = () => {
               {/* Thesis Registry Overview */}
               <ThesisRegistry onNotify={showToast} />
             </div>
-          </div>
-        )}
-
-        {activeTab === 'updates' && (
-          <div className="max-w-6xl mx-auto px-4 py-12">
-            <LabUpdatesFeed onNotify={showToast} />
           </div>
         )}
 

@@ -68,27 +68,7 @@ export interface TeamMember {
   status: 'Active' | 'Alumni' | 'Visiting';
 }
 
-export type TabKey = 'home' | 'updates' | 'team' | 'research' | 'publications' | 'students' | 'gear' | 'abaqus' | 'contact' | 'chat';
-
-export type LabUpdateCategory = 'all' | 'publication' | 'grant' | 'experiment' | 'simulation' | 'conference' | 'milestone';
-
-export interface LabUpdate {
-  id: string;
-  title: string;
-  date: string;
-  isoDate: string;
-  category: 'publication' | 'grant' | 'experiment' | 'simulation' | 'conference' | 'milestone';
-  categoryLabel: string;
-  summary: string;
-  fullDetails?: string;
-  leadResearcher: string;
-  coResearchers?: string[];
-  externalUrl?: string;
-  externalUrlLabel?: string;
-  metrics?: { label: string; value: string }[];
-  tags: string[];
-  featured?: boolean;
-}
+export type TabKey = 'home' | 'team' | 'research' | 'publications' | 'students' | 'gear' | 'abaqus' | 'contact' | 'chat';
 
 export interface ChatMessage {
   id: string;

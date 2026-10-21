@@ -4,17 +4,11 @@ import { createServer as createViteServer } from 'vite';
 import { GoogleGenAI } from '@google/genai';
 import path from 'path';
 import { fileURLToPath } from 'url';
-
-import { INITIAL_LAB_UPDATES } from './src/data/initialData';
-import type { LabUpdate } from './src/types';
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const isProduction = process.env.NODE_ENV === 'production';
 const PORT = 3000;
-
-let labUpdatesStore: LabUpdate[] = [...INITIAL_LAB_UPDATES];
 
 function getAIClient() {
   const apiKey = process.env.GEMINI_API_KEY;
@@ -45,43 +39,6 @@ async function startServer() {
       hasApiKey: Boolean(process.env.GEMINI_API_KEY),
       lab: 'SWID-SHRK Mechanical & Aerospace Research Lab',
     });
-  });
-
-  // Lab Updates endpoints
-  app.get('/api/updates', (_req: Request, res: Response) => {
-    res.json({
-      updates: labUpdatesStore,
-      total: labUpdatesStore.length,
-      lastUpdated: new Date().toISOString(),
-    });
-  });
-
-  app.post('/api/updates', (req: Request, res: Response) => {
-    const updateData = req.body;
-    if (!updateData || !updateData.title || !updateData.summary) {
-      return res.status(400).json({ error: 'Title and summary are required' });
-    }
-
-    const newUpdate: LabUpdate = {
-      id: updateData.id || `upd-${Date.now()}`,
-      title: updateData.title.trim(),
-      date: updateData.date || new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
-      isoDate: updateData.isoDate || new Date().toISOString().split('T')[0],
-      category: updateData.category || 'milestone',
-      categoryLabel: updateData.categoryLabel || 'Lab Milestone',
-      summary: updateData.summary.trim(),
-      fullDetails: updateData.fullDetails?.trim(),
-      leadResearcher: updateData.leadResearcher?.trim() || 'SWID-SHRK Research Lab',
-      coResearchers: Array.isArray(updateData.coResearchers) ? updateData.coResearchers : [],
-      externalUrl: updateData.externalUrl?.trim(),
-      externalUrlLabel: updateData.externalUrlLabel?.trim(),
-      metrics: Array.isArray(updateData.metrics) ? updateData.metrics : [],
-      tags: Array.isArray(updateData.tags) && updateData.tags.length > 0 ? updateData.tags : ['Research Milestone'],
-      featured: Boolean(updateData.featured),
-    };
-
-    labUpdatesStore = [newUpdate, ...labUpdatesStore];
-    return res.status(201).json({ success: true, update: newUpdate, total: labUpdatesStore.length });
   });
 
   // Chat endpoint

@@ -40,12 +40,6 @@ export const Footer: React.FC<FooterProps> = ({ onSelectTab }) => {
             Home
           </button>
           <button
-            onClick={() => onSelectTab('updates')}
-            className="hover:text-sky-700 dark:hover:text-[#00ff41] transition-colors cursor-pointer"
-          >
-            Updates
-          </button>
-          <button
             onClick={() => onSelectTab('team')}
             className="hover:text-sky-700 dark:hover:text-[#00ff41] transition-colors cursor-pointer"
           >
