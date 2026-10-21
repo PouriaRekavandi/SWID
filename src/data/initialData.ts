@@ -1,4 +1,4 @@
-import { Publication, StudentRecord, VideoTutorial, TeamMember } from '../types';
+import { Publication, StudentRecord, VideoTutorial, TeamMember, LabUpdate } from '../types';
 
 export const INITIAL_STUDENTS: StudentRecord[] = [
   {
@@ -445,6 +445,142 @@ export const INITIAL_TEAM_MEMBERS: TeamMember[] = [
     joinedYear: '2023',
     highlight: 'MSc Alumnus Defended with Honors · Now Research Engineer at APL',
     status: 'Alumni'
+  }
+];
+
+export const INITIAL_LAB_UPDATES: LabUpdate[] = [
+  {
+    id: 'upd-2026-10-nsf',
+    title: 'NSF CMMI Grant Awarded: Neural PINN Surrogates for Dynamic 3D Fracture Mechanics',
+    date: 'October 14, 2026',
+    isoDate: '2026-10-14',
+    category: 'grant',
+    categoryLabel: 'Grant Award',
+    featured: true,
+    summary: 'SWID-SHRK Lab received a $485,000 grant from the National Science Foundation (CMMI) to formulate Physics-Informed Neural Network surrogates that accelerate non-linear crack propagation simulations in aerospace panels by over 140x.',
+    fullDetails: 'This 3-year collaborative grant focuses on embedding elastodynamic conservation equations and weight function formulations directly into deep neural network loss functions. The PINN surrogate predicts real-time stress intensity factor envelopes under multiaxial random thermo-mechanical vibration without requiring full transient mesh remeshing.',
+    leadResearcher: 'Pouria Hejazi Rekavandi (PI)',
+    coResearchers: ['Dr. Tariq Mansour', 'Elena Rostami'],
+    externalUrl: 'https://www.nsf.gov/awardsearch/',
+    externalUrlLabel: 'NSF Award Announcement',
+    metrics: [
+      { label: 'Award Funding', value: '$485,000' },
+      { label: 'Program', value: 'NSF CMMI Mechanics' },
+      { label: 'Speedup Factor', value: '140× FEA Acceleration' }
+    ],
+    tags: ['NSF Grant', 'PINNs', 'Fracture Mechanics', 'Aerospace Panels', 'Deep Learning']
+  },
+  {
+    id: 'upd-2026-09-ijf',
+    title: 'New Publication: Multiaxial Thermo-Mechanical Fatigue Life of Functionally Graded Cylinders',
+    date: 'September 28, 2026',
+    isoDate: '2026-09-28',
+    category: 'publication',
+    categoryLabel: 'Journal Publication',
+    featured: true,
+    summary: 'Our comprehensive research paper on weight function formulations for cracked hollow cylinders subjected to cyclic thermal shocks has been officially published in the International Journal of Fatigue (Q1, Elsevier).',
+    fullDetails: 'The study presents an analytical-computational closed-form weight function derived for radial through-wall and part-through longitudinal cracks in graded metal-ceramic cylinders. Results are validated against 100+ thermo-mechanical Abaqus benchmark simulations and show <3% deviation from experimental thermal fatigue cycle counts.',
+    leadResearcher: 'Pouria Hejazi Rekavandi',
+    coResearchers: ['S. M. Nabavi'],
+    externalUrl: 'https://doi.org/10.1016/j.ijfatigue.2026.107892',
+    externalUrlLabel: 'Read on ScienceDirect (DOI: 10.1016/j.ijfatigue.2026.107892)',
+    metrics: [
+      { label: 'Journal', value: 'Int. J. Fatigue (Q1)' },
+      { label: 'Impact Factor', value: '6.2' },
+      { label: 'Error Margin', value: '< 2.8% vs Benchmark' }
+    ],
+    tags: ['Fracture Mechanics', 'Weight Functions', 'FGM Cylinders', 'Thermal Shock', 'Fatigue Life']
+  },
+  {
+    id: 'upd-2026-08-shpb',
+    title: 'High-Rate Neural Biomechanics: Sub-Millisecond Viscoelastic Testing at 1,200 s⁻¹',
+    date: 'August 19, 2026',
+    isoDate: '2026-08-19',
+    category: 'experiment',
+    categoryLabel: 'Experimental Trial',
+    summary: 'Completed high-velocity split-Hopkinson pressure bar (SHPB) dynamic shear trials on porcine brain parenchyma tissue, capturing microsecond strain localization during simulated blast and blunt impact.',
+    fullDetails: 'The captured dynamic shear stress-strain curves revealed pronounced non-linear strain-rate stiffening between 100 s⁻¹ and 1,200 s⁻¹. The data has been calibrated directly into our user-defined Fortran VUMAT subroutine in Abaqus/Explicit for realistic traumatic brain injury (TBI) head impact simulations.',
+    leadResearcher: 'Alireza Karimi (PhD Candidate)',
+    coResearchers: ['Pouria Hejazi Rekavandi'],
+    metrics: [
+      { label: 'Strain Rate', value: '1,200 s⁻¹' },
+      { label: 'Technique', value: 'Polymeric SHPB' },
+      { label: 'Subroutine', value: 'Fortran VUMAT' }
+    ],
+    tags: ['Neural Biomechanics', 'SHPB Testing', 'TBI Trauma', 'VUMAT Subroutine', 'Abaqus Explicit']
+  },
+  {
+    id: 'upd-2026-07-lce',
+    title: '3D AntiPrism Metamaterial Breakthrough: 3.2× Specific Energy Absorption Increase',
+    date: 'July 08, 2026',
+    isoDate: '2026-07-08',
+    category: 'simulation',
+    categoryLabel: 'Computational & Metamaterial',
+    summary: 'Demonstrated that integrating Liquid Crystal Elastomer (LCE) bistable hinges with AntiPrism origami cells yields a 320% increase in mass-specific energy absorption under high-speed compressive impact.',
+    fullDetails: 'Combining generative topological optimization with nonlinear multi-point contact in Abaqus/Explicit, the metamaterial structure dissipates shock energy via recoverable snap-through elastic buckling and dissipative molecular alignment without plastic catastrophic rupture.',
+    leadResearcher: 'Elena Rostami (PhD Candidate)',
+    coResearchers: ['Sarah Chen', 'Pouria Hejazi Rekavandi'],
+    metrics: [
+      { label: 'SEA Improvement', value: '+320% (3.2×)' },
+      { label: 'Material System', value: 'LCE + AntiPrism' },
+      { label: 'Reversibility', value: '> 98% Recovery' }
+    ],
+    tags: ['Metamaterials', 'AntiPrism Origami', 'LCE Elastomers', 'Shock Absorption', 'Abaqus']
+  },
+  {
+    id: 'upd-2026-06-asme',
+    title: 'Invited Keynote at ASME International Mechanical Engineering Congress (IMECE 2026)',
+    date: 'June 22, 2026',
+    isoDate: '2026-06-22',
+    category: 'conference',
+    categoryLabel: 'Keynote & Conference',
+    summary: 'PI Pouria Hejazi Rekavandi delivered an invited keynote in the Fracture and Failure of Advanced Materials symposium, presenting our unified weight function framework and recent neural biomechanics insights.',
+    fullDetails: 'The plenary talk highlighted how computational mechanics, coupled with modern scientific machine learning, bridges microstructural damage initiation and macroscopic component residual strength in next-generation aerospace and biomedical systems.',
+    leadResearcher: 'Pouria Hejazi Rekavandi',
+    externalUrl: 'https://event.asme.org/IMECE',
+    externalUrlLabel: 'ASME IMECE Program Archive',
+    metrics: [
+      { label: 'Congress', value: 'ASME IMECE 2026' },
+      { label: 'Track', value: 'Mechanics & Materials' }
+    ],
+    tags: ['ASME', 'IMECE', 'Keynote Lecture', 'Mechanics Community', 'Symposium']
+  },
+  {
+    id: 'upd-2026-05-dic',
+    title: 'Stereo-DIC Optical Metrology Deployed for Cementitious Crack Localization',
+    date: 'May 11, 2026',
+    isoDate: '2026-05-11',
+    category: 'experiment',
+    categoryLabel: 'Experimental Trial',
+    summary: 'Successfully calibrated high-resolution stereoscopic 3D Digital Image Correlation (DIC) system for capturing full-field displacement discontinuities and fracture process zones in fiber-reinforced cement matrices.',
+    fullDetails: 'The optical rig achieves sub-pixel displacement resolution of 0.01 pixels at 250 frames per second, allowing quantitative tracking of cohesive crack bridging laws and fracture energy dissipation prior to ultimate specimen separation.',
+    leadResearcher: 'Marcus Vance',
+    coResearchers: ['Pouria Hejazi Rekavandi'],
+    metrics: [
+      { label: 'Resolution', value: '0.01 pixel' },
+      { label: 'Frame Rate', value: '250 fps Stereo' },
+      { label: 'Measurement', value: 'Full-Field Strain ε_xx, ε_yy' }
+    ],
+    tags: ['DIC Metrology', 'Quasi-Brittle', 'Fiber Cements', 'Optical Strain', 'Fracture Energy']
+  },
+  {
+    id: 'upd-2026-04-toolbox',
+    title: 'Open Source Release: SWID-SHRK Python & Fortran Fracture Mechanics Toolbox',
+    date: 'April 03, 2026',
+    isoDate: '2026-04-03',
+    category: 'milestone',
+    categoryLabel: 'Open Source Software',
+    summary: 'Released version 1.2 of our open-source research toolbox for automated stress intensity factor computation, weight function integration, and Abaqus INP input file generator on GitHub.',
+    fullDetails: 'The repository provides verified scripts for computing Mode I and Mode II stress intensity factors ($K_I$, $K_{II}$) in cracked cylinders, extracting nodal J-integrals from Abaqus ODB output databases, and executing hyper-viscoelastic material calibrations.',
+    leadResearcher: 'SWID-SHRK Computational Group',
+    externalUrl: 'https://github.com/pouriarekavandi/SWID',
+    externalUrlLabel: 'View GitHub Repository',
+    metrics: [
+      { label: 'Toolbox Version', value: 'v1.2.0' },
+      { label: 'Languages', value: 'Python 3.11 & Fortran 90' },
+      { label: 'License', value: 'MIT Open Research' }
+    ],
+    tags: ['Open Source', 'Python Toolbox', 'Fortran VUMAT', 'ODB Extraction', 'SIF Calculator']
   }
 ];
 
